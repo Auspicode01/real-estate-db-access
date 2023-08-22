@@ -37,10 +37,10 @@ public class TenantController {
             description = "Get Tenant by all Primary Key fields (NIF, Id Card Number, Full Name)"
     )
     @GetMapping(value = "/tenant")
-    public ResponseEntity<TenantResponse> getTenant(@RequestParam(required = true) String nif,
-                                                    @RequestParam(required = true) String idCardNumber,
-                                                    @RequestParam(required = true) String fullName) {
-        return new ResponseEntity<>(tenantService.findOne(nif, idCardNumber, fullName), HttpStatus.OK);
+    public ResponseEntity<TenantResponse> getTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif,
+                                                    @RequestParam(name = "tenantIdCardNumber", required = true) String tenantIdCardNumber,
+                                                    @RequestParam(name = "tenantFullName", required = true) String tenantFullName) {
+        return new ResponseEntity<>(tenantService.findOne(tenantNif, tenantIdCardNumber, tenantFullName), HttpStatus.OK);
     }
 
     @Operation(
@@ -48,8 +48,8 @@ public class TenantController {
             description = "Retrieve a Tenant by NIF"
     )
     @GetMapping(value = "/tenant/nif")
-    public ResponseEntity<TenantResponse> getTenantByNif(@RequestParam(required = true) String nif) {
-        return new ResponseEntity<>(tenantService.findByNif(nif), HttpStatus.OK);
+    public ResponseEntity<TenantResponse> getTenantByNif(@RequestParam(name = "tenantNif", required = true) String tenantNif) {
+        return new ResponseEntity<>(tenantService.findByNif(tenantNif), HttpStatus.OK);
     }
 
     @Operation(
@@ -66,25 +66,34 @@ public class TenantController {
             description = "Define a new Tenant's Contact and store it in the database"
     )
     @PostMapping(value = "/tenant/contact")
-    public ResponseEntity<TenantResponse> createTenantContact(@RequestParam(required = true) String nif, @RequestBody(required = true) @Valid Contact contact) {
-        return new ResponseEntity<>(tenantService.createContact(nif, contact), HttpStatus.CREATED);
+    public ResponseEntity<TenantResponse> createTenantContact(@RequestParam(name = "tenantNif", required = true) String tenantNif, @RequestBody(required = true) @Valid Contact contact) {
+        return new ResponseEntity<>(tenantService.createContact(tenantNif, contact), HttpStatus.CREATED);
     }
 
-  /*@Operation(
-      summary = "Update Tenant",
-      description = "Update a Tenant currently registered in the database. Only the following fields can be updated: nib, cellPhone and email"
-  )
-  @PutMapping(value = "/tenant")
-  public ResponseEntity<TenantResponse> updateTenant(@RequestParam(name = "nif", required = true) String nif, @RequestParam(name = "nib", required = true) String nib) {
-    return new ResponseEntity<>(tenantService.updateTenant(nif), HttpStatus.OK);
-  }*/
+    @Operation(
+            summary = "Update Tenant",
+            description = "Update a Tenant currently registered in the database. Only the nib field can be updated"
+    )
+    @PutMapping(value = "/tenant")
+    public ResponseEntity<TenantResponse> updateTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif, @RequestParam(name = "tenantNib", required = true) String tenantNib) {
+        return new ResponseEntity<>(tenantService.updateTenant(tenantNif, tenantNib), HttpStatus.OK);
+    }
 
     @Operation(
             summary = "Delete Tenant",
             description = "Delete a Tenant and all its associated information"
     )
     @DeleteMapping(value = "/tenant")
-    public ResponseEntity<TenantEntity> deleteTenant(@RequestParam(required = true) String nif) {
-        return new ResponseEntity<>(tenantService.deleteTenant(nif), HttpStatus.OK);
+    public ResponseEntity<TenantEntity> deleteTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif) {
+        return new ResponseEntity<>(tenantService.deleteTenant(tenantNif), HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Delete Tenant Contact",
+            description = "Delete a Tenant's Contact by its nif, type and value"
+    )
+    @DeleteMapping(value = "/tenant/contact")
+    public ResponseEntity<Boolean> deleteTenantContact(@RequestParam(name = "tenantNif", required = true) String tenantNif, @RequestBody(required = true) @Valid Contact contact) {
+        return new ResponseEntity<>(tenantService.deleteContact(tenantNif, contact), HttpStatus.OK);
     }
 }

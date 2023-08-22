@@ -1,6 +1,7 @@
 package org.auspicode.cml.realestatedbaccess.repositories;
 
 import lombok.NonNull;
+import org.auspicode.cml.realestatedbaccess.entities.ContactType;
 import org.auspicode.cml.realestatedbaccess.entities.TenantContactEntity;
 import org.auspicode.cml.realestatedbaccess.entities.TenantEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,4 +16,6 @@ public interface TenantContactRepository extends JpaRepository<TenantContactEnti
     @NonNull Optional<TenantContactEntity> findById(@NonNull Long id);
 
     List<TenantContactEntity> findByTenantEntity(TenantEntity tenantEntity);
+
+    void deleteByTenantEntityAndContactTypeAndValue(TenantEntity tenant, ContactType type, String value);
 }

@@ -38,8 +38,8 @@ public class TenantService {
     }
 
     @Transactional
-    public TenantResponse findOne(String nif, String idCardNumber, String fullName) {
-        Optional<TenantEntity> tenantEntity = tenantRepository.findByIdNifAndIdIdCardNumberAndIdFullName(nif, idCardNumber, fullName);
+    public TenantResponse findOne(String tenantNif, String tenantIdCardNumber, String tenantFullName) {
+        Optional<TenantEntity> tenantEntity = tenantRepository.findByIdNifAndIdIdCardNumberAndIdFullName(tenantNif, tenantIdCardNumber, tenantFullName);
         if (tenantEntity.isEmpty()) {
             throw new NoSuchElementException(TENANT_NOT_IN_DB);
         }
@@ -47,8 +47,8 @@ public class TenantService {
     }
 
     @Transactional
-    public TenantResponse findByNif(String nif) {
-        TenantEntity tenantEntity = findEntityByNif(nif);
+    public TenantResponse findByNif(String tenantNif) {
+        TenantEntity tenantEntity = findEntityByNif(tenantNif);
         return tenantMapper.toModel(tenantEntity);
     }
 
@@ -67,15 +67,27 @@ public class TenantService {
         return tenantMapper.toModel(tenantEntity);
     }
 
+    public TenantResponse updateTenant(String tenantNif, String tenantNib) {
+        TenantEntity tenantEntity = findEntityByNif(tenantNif);
+        tenantEntity.setNib(tenantNib);
+        return tenantMapper.toModel(tenantEntity);
+    }
+
     @Transactional
-    public TenantEntity deleteTenant(String nif) {
-        TenantEntity tenantEntity = findEntityByNif(nif);
+    public TenantEntity deleteTenant(String tenantNif) {
+        TenantEntity tenantEntity = findEntityByNif(tenantNif);
         tenantRepository.delete(tenantEntity);
         return tenantEntity;
     }
 
-    protected TenantEntity findEntityByNif(String nif) {
-        Optional<TenantEntity> tenantEntity = tenantRepository.findByIdNif(nif);
+    @Transactional
+    public Boolean deleteContact(String tenantNif, Contact contact) {
+        tenantContactRepository.deleteByTenantEntityAndContactTypeAndValue(findEntityByNif(tenantNif), contact.getContactType(), contact.getValue());
+        return true;
+    }
+
+    protected TenantEntity findEntityByNif(String tenantNif) {
+        Optional<TenantEntity> tenantEntity = tenantRepository.findByIdNif(tenantNif);
         if (tenantEntity.isEmpty()) {
             throw new NoSuchElementException(TENANT_NOT_IN_DB);
         }
