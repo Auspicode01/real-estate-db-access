@@ -1,7 +1,7 @@
 package org.auspicode.cml.realestatedbaccess.mappers;
 
 import org.auspicode.cml.realestatedbaccess.entities.ContractEntity;
-import org.auspicode.cml.realestatedbaccess.entities.TenantEntity;
+import org.auspicode.cml.realestatedbaccess.entities.LandlordEntity;
 import org.auspicode.cml.realestatedbaccess.models.CreateUserRequest;
 import org.auspicode.cml.realestatedbaccess.models.UserContractResponse;
 import org.auspicode.cml.realestatedbaccess.models.UserResponse;
@@ -14,7 +14,7 @@ import java.time.Period;
 import java.util.List;
 
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE, uses = ContractUserResponseMapper.class)
-public interface TenantMapper {
+public interface LandlordMapper {
 
     @Mapping(target = "id.nif", source = "nif")
     @Mapping(target = "id.idCardNumber", source = "idCardNumber")
@@ -22,15 +22,15 @@ public interface TenantMapper {
     @Mapping(target = "birthDate", source = "birthDate")
     @Mapping(target = "nib", source = "nib")
     @Mapping(target = "originalAddress", source = "originalAddress")
-    TenantEntity createTenantRequestToEntity(CreateUserRequest createUserRequest);
+    LandlordEntity createLandlordRequestToEntity(CreateUserRequest createUserRequest);
 
     @Mapping(target = "nif", source = "id.nif")
     @Mapping(target = "idCardNumber", source = "id.idCardNumber")
     @Mapping(target = "fullName", source = "id.fullName")
-    @Mapping(target = "age", expression = "java(calculateAge(tenantEntity.getBirthDate()))")
-    UserResponse toModel(TenantEntity tenantEntity);
+    @Mapping(target = "age", expression = "java(calculateAge(landlordEntity.getBirthDate()))")
+    UserResponse toModel(LandlordEntity landlordEntity);
 
-    List<UserResponse> toModel(List<TenantEntity> tenantEntityList);
+    List<UserResponse> toModel(List<LandlordEntity> landlordEntityList);
 
     @Mapping(target = "unit.id", source = "unitId.id")
     @Mapping(target = "unit.street", source = "unitId.street")
@@ -44,7 +44,7 @@ public interface TenantMapper {
     @Mapping(target = "room.price", source = "roomId.price")
     @Mapping(target = "room.capacity", source = "roomId.capacity")
     @Mapping(target = "room.isSuite", source = "roomId.isSuite")
-    @Mapping(target = "otherParty", source = "landlords")
+    @Mapping(target = "otherParty", source = "tenants")
     UserContractResponse contractEntityToModel(ContractEntity contractEntity);
 
     default int calculateAge(LocalDate birthDate) {

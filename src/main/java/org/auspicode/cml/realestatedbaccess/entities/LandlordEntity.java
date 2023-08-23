@@ -17,11 +17,11 @@ import java.util.Set;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "TENANTS")
-public class TenantEntity {
+@Table(name = "LANDLORDS")
+public class LandlordEntity {
 
     @EmbeddedId
-    private TenantEntityId id;
+    private LandlordEntityId id;
 
     @NotNull
     @Column(name = "BIRTH_DATE", nullable = false, updatable = false)
@@ -37,11 +37,11 @@ public class TenantEntity {
     @Column(name = "NIB", nullable = false, length = 25)
     private String nib;
 
-    @ManyToMany(mappedBy = "tenants", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("tenants")
+    @ManyToMany(mappedBy = "landlords", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties("landlords")
     private Set<ContractEntity> contracts;
 
-    @OneToMany(mappedBy = "tenantEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JsonIgnoreProperties("tenantEntity")
-    private Set<TenantContactEntity> contacts;
+    @OneToMany(mappedBy = "landlordEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties("landlordEntity")
+    private Set<LandlordContactEntity> contacts;
 }

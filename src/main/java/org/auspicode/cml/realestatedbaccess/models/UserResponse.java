@@ -25,9 +25,10 @@ import java.util.Set;
         "birthDate",
         "age",
         "nib",
-        "contacts"
+        "contacts",
+        "contracts"
 })
-public class TenantResponse {
+public class UserResponse {
 
     @NotNull
     @Size(min = 11, max = 11)
@@ -60,4 +61,7 @@ public class TenantResponse {
 
     @JsonProperty("contacts")
     private Set<Contact> contacts;
+
+    @JsonProperty("contracts")
+    private Set<UserContractResponse> contracts;
 }

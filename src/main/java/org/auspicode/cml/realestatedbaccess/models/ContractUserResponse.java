@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,22 +23,23 @@ import java.time.LocalDate;
         "idCardNumber",
         "fullName",
         "birthDate",
+        "age",
         "nib",
-        "originalAddress"
+        "contacts"
 })
-public class CreateTenantRequest {
+public class ContractUserResponse {
 
-    @NotBlank
+    @NotNull
     @Size(min = 11, max = 11)
     @JsonProperty("nif")
     private String nif;
 
-    @NotBlank
+    @NotNull
     @Size(min = 8, max = 8)
     @JsonProperty("idCardNumber")
     private String idCardNumber;
 
-    @NotBlank
+    @NotNull
     @Size(max = 80)
     @JsonProperty("fullName")
     private String fullName;
@@ -47,12 +49,15 @@ public class CreateTenantRequest {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
 
+    @NotNull
+    @JsonProperty("age")
+    private int age;
+
     @NotBlank
     @Size(min = 25, max = 25)
     @JsonProperty("nib")
     private String nib;
 
-    @Size(max = 100)
-    @JsonProperty("originalAddress")
-    private String originalAddress;
+    @JsonProperty("contacts")
+    private Set<Contact> contacts;
 }

@@ -6,8 +6,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.entities.TenantEntity;
 import org.auspicode.cml.realestatedbaccess.models.Contact;
-import org.auspicode.cml.realestatedbaccess.models.CreateTenantRequest;
-import org.auspicode.cml.realestatedbaccess.models.TenantResponse;
+import org.auspicode.cml.realestatedbaccess.models.CreateUserRequest;
+import org.auspicode.cml.realestatedbaccess.models.UserResponse;
 import org.auspicode.cml.realestatedbaccess.services.TenantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class TenantController {
             description = "Get all Tenants currently registered in the database"
     )
     @GetMapping(value = "/tenant/list")
-    public ResponseEntity<List<TenantResponse>> listTenants() {
+    public ResponseEntity<List<UserResponse>> listTenants() {
         return new ResponseEntity<>(tenantService.retrieveTenants(), HttpStatus.OK);
     }
 
@@ -37,9 +37,9 @@ public class TenantController {
             description = "Get Tenant by all Primary Key fields (NIF, Id Card Number, Full Name)"
     )
     @GetMapping(value = "/tenant")
-    public ResponseEntity<TenantResponse> getTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif,
-                                                    @RequestParam(name = "tenantIdCardNumber", required = true) String tenantIdCardNumber,
-                                                    @RequestParam(name = "tenantFullName", required = true) String tenantFullName) {
+    public ResponseEntity<UserResponse> getTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif,
+                                                  @RequestParam(name = "tenantIdCardNumber", required = true) String tenantIdCardNumber,
+                                                  @RequestParam(name = "tenantFullName", required = true) String tenantFullName) {
         return new ResponseEntity<>(tenantService.findOne(tenantNif, tenantIdCardNumber, tenantFullName), HttpStatus.OK);
     }
 
@@ -48,7 +48,7 @@ public class TenantController {
             description = "Retrieve a Tenant by NIF"
     )
     @GetMapping(value = "/tenant/nif")
-    public ResponseEntity<TenantResponse> getTenantByNif(@RequestParam(name = "tenantNif", required = true) String tenantNif) {
+    public ResponseEntity<UserResponse> getTenantByNif(@RequestParam(name = "tenantNif", required = true) String tenantNif) {
         return new ResponseEntity<>(tenantService.findByNif(tenantNif), HttpStatus.OK);
     }
 
@@ -57,7 +57,7 @@ public class TenantController {
             description = "Define a new Tenant's fields and store it in the database"
     )
     @PostMapping(value = "/tenant")
-    public ResponseEntity<TenantEntity> createTenant(@RequestBody(required = true) @Valid CreateTenantRequest tenant) {
+    public ResponseEntity<TenantEntity> createTenant(@RequestBody(required = true) @Valid CreateUserRequest tenant) {
         return new ResponseEntity<>(tenantService.createTenant(tenant), HttpStatus.CREATED);
     }
 
@@ -66,7 +66,7 @@ public class TenantController {
             description = "Define a new Tenant's Contact and store it in the database"
     )
     @PostMapping(value = "/tenant/contact")
-    public ResponseEntity<TenantResponse> createTenantContact(@RequestParam(name = "tenantNif", required = true) String tenantNif, @RequestBody(required = true) @Valid Contact contact) {
+    public ResponseEntity<UserResponse> createTenantContact(@RequestParam(name = "tenantNif", required = true) String tenantNif, @RequestBody(required = true) @Valid Contact contact) {
         return new ResponseEntity<>(tenantService.createContact(tenantNif, contact), HttpStatus.CREATED);
     }
 
@@ -74,8 +74,8 @@ public class TenantController {
             summary = "Update Tenant",
             description = "Update a Tenant currently registered in the database. Only the nib field can be updated"
     )
-    @PutMapping(value = "/tenant")
-    public ResponseEntity<TenantResponse> updateTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif, @RequestParam(name = "tenantNib", required = true) String tenantNib) {
+    @PatchMapping(value = "/tenant")
+    public ResponseEntity<UserResponse> updateTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif, @RequestParam(name = "tenantNib", required = true) String tenantNib) {
         return new ResponseEntity<>(tenantService.updateTenant(tenantNif, tenantNib), HttpStatus.OK);
     }
 
