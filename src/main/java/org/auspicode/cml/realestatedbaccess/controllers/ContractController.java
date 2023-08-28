@@ -3,6 +3,7 @@ package org.auspicode.cml.realestatedbaccess.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.models.ContractResponse;
 import org.auspicode.cml.realestatedbaccess.models.CreateContractRequest;
 import org.auspicode.cml.realestatedbaccess.services.ContractService;
@@ -15,13 +16,10 @@ import java.util.List;
 @RestController
 @RequestMapping("")
 @Tag(name = "Contract")
+@AllArgsConstructor
 public class ContractController {
 
     private final ContractService contractService;
-
-    public ContractController(ContractService contractService) {
-        this.contractService = contractService;
-    }
 
     @Operation(
             summary = "List Contracts",

@@ -1,6 +1,7 @@
 package org.auspicode.cml.realestatedbaccess.services;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.entities.ContractEntity;
 import org.auspicode.cml.realestatedbaccess.entities.RoomEntity;
 import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.CONTRACT_NOT_IN_DB;
 
 @Service
+@AllArgsConstructor
 public class ContractService {
 
     private final ContractRepository contractRepository;
@@ -30,15 +32,6 @@ public class ContractService {
     private final RoomService roomService;
 
     private final ContractMapper contractMapper;
-
-    public ContractService(ContractRepository contractRepository, TenantService tenantService, LandlordService landlordService, UnitService unitService, RoomService roomService, ContractMapper contractMapper) {
-        this.contractRepository = contractRepository;
-        this.tenantService = tenantService;
-        this.landlordService = landlordService;
-        this.unitService = unitService;
-        this.roomService = roomService;
-        this.contractMapper = contractMapper;
-    }
 
     @Transactional
     public List<ContractResponse> retrieveContracts() {

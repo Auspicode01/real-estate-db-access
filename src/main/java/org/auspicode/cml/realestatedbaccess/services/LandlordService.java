@@ -54,12 +54,13 @@ public class LandlordService {
         return landlordMapper.toModel(landlordEntity);
     }
 
-    public LandlordEntity createLandlord(CreateUserRequest landlord) {
+    public UserResponse createLandlord(CreateUserRequest landlord) {
         Optional<LandlordEntity> landlordInDb = landlordRepository.findByIdNifAndIdIdCardNumberAndIdFullName(landlord.getNif(), landlord.getIdCardNumber(), landlord.getFullName());
         if (landlordInDb.isPresent()) {
             throw new EntryAlreadyInDbException(LANDLORD_ALREADY_IN_DB);
         }
-        return landlordRepository.save(landlordMapper.createLandlordRequestToEntity(landlord));
+        LandlordEntity landlordEntity = landlordMapper.createLandlordRequestToEntity(landlord);
+        return landlordMapper.toModel(landlordRepository.save(landlordEntity));
     }
 
     @Transactional
@@ -77,10 +78,10 @@ public class LandlordService {
     }
 
     @Transactional
-    public LandlordEntity deleteLandlord(String landlordNif) {
+    public UserResponse deleteLandlord(String landlordNif) {
         LandlordEntity landlordEntity = findEntityByNif(landlordNif);
         landlordRepository.delete(landlordEntity);
-        return landlordEntity;
+        return landlordMapper.toModel(landlordEntity);
     }
 
     @Transactional

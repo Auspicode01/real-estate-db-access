@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.auspicode.cml.realestatedbaccess.entities.LandlordEntity;
 import org.auspicode.cml.realestatedbaccess.models.Contact;
 import org.auspicode.cml.realestatedbaccess.models.CreateUserRequest;
 import org.auspicode.cml.realestatedbaccess.models.UserResponse;
@@ -58,7 +57,7 @@ public class LandlordController {
             description = "Define a new Landlord's fields and store it in the database"
     )
     @PostMapping(value = "/landlord")
-    public ResponseEntity<LandlordEntity> createLandlord(@RequestBody(required = true) @Valid CreateUserRequest landlord) {
+    public ResponseEntity<UserResponse> createLandlord(@RequestBody(required = true) @Valid CreateUserRequest landlord) {
         return new ResponseEntity<>(landlordService.createLandlord(landlord), HttpStatus.CREATED);
     }
 
@@ -85,7 +84,7 @@ public class LandlordController {
             description = "Delete a Landlord and all its associated information"
     )
     @DeleteMapping(value = "/landlord")
-    public ResponseEntity<LandlordEntity> deleteLandlord(@RequestParam(name = "landlordNif", required = true) String landlordNif) {
+    public ResponseEntity<UserResponse> deleteLandlord(@RequestParam(name = "landlordNif", required = true) String landlordNif) {
         return new ResponseEntity<>(landlordService.deleteLandlord(landlordNif), HttpStatus.OK);
     }
 
