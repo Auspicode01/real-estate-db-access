@@ -2,8 +2,6 @@ package org.auspicode.cml.realestatedbaccess.exception;
 
 public class ErrorMessages {
 
-    public static final String BAD_REQUEST = "Bad Request";
-
     public static final String UNIT_ALREADY_IN_DB = "Unit already in database";
 
     public static final String TENANT_ALREADY_IN_DB = "Tenant already in database";

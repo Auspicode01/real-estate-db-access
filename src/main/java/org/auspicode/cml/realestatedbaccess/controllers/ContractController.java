@@ -50,22 +50,31 @@ public class ContractController {
         return new ResponseEntity<>(contractService.findByUnitId(unitId), HttpStatus.OK);
     }
 
-    /*@Operation(
-            summary = "Get Contracts by Tenant id",
+    @Operation(
+            summary = "Get Contracts by Landlord nif",
+            description = "Retrieve all Contracts by its associated landlord"
+    )
+    @GetMapping(value = "/contract/landlord", produces = {"application/json"})
+    public ResponseEntity<List<ContractResponse>> findByLandlordNif(@RequestParam(name = "landlordNif", required = true) String landlordNif) {
+        return new ResponseEntity<>(contractService.findByLandlordNif(landlordNif), HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Get Contracts by Tenant nif",
             description = "Retrieve all Contracts by its associated tenant"
     )
     @GetMapping(value = "/contract/tenant", produces = {"application/json"})
-    public ResponseEntity<List<ContractResponse>> findByTenantId(@RequestParam(name = "nif", required = true) String nif) {
-        return new ResponseEntity<>(contractService.findByTenantId(nif), HttpStatus.OK);
-    }*/
+    public ResponseEntity<List<ContractResponse>> findByTenantNif(@RequestParam(name = "tenantNif", required = true) String tenantNif) {
+        return new ResponseEntity<>(contractService.findByTenantNif(tenantNif), HttpStatus.OK);
+    }
 
     @Operation(
             summary = "Get Contract by Room id",
             description = "Retrieve a Contract by its associated Room"
     )
     @GetMapping(value = "/contract/room", produces = {"application/json"})
-    public ResponseEntity<ContractResponse> findByRoomId(@RequestParam(name = "roomId", required = true) Long id) {
-        return new ResponseEntity<>(contractService.findByRoomId(id), HttpStatus.OK);
+    public ResponseEntity<ContractResponse> findByRoomId(@RequestParam(name = "roomId", required = true) Long roomId) {
+        return new ResponseEntity<>(contractService.findByRoomId(roomId), HttpStatus.OK);
     }
 
     @Operation(

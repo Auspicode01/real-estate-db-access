@@ -1,0 +1,14 @@
+{
+  "endDate": "30-03-2024",
+  "landlordsNif": [
+    "696.609.102"
+  ],
+  "tenantsNif": [
+    "509.609.798",
+    "509.609.799",
+    "509.609.800"
+  ],
+  "unitId": "leirinhas",
+  "roomId": 4,
+  "type": "Fraction"
+}

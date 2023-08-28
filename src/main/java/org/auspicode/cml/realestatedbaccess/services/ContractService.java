@@ -62,18 +62,27 @@ public class ContractService {
         return contractMapper.toModel(contractEntityList);
     }
 
-    /*public List<ContractResponse> findByTenantId(String nif) {
-        TenantEntity tenantEntity = tenantService.findEntityByNif(nif);
-        List<ContractEntity> contractEntityList = contractRepository.findByTenantId(tenantEntity);
+    @Transactional
+    public List<ContractResponse> findByLandlordNif(String landlordNif) {
+        List<ContractEntity> contractEntityList = contractRepository.findByLandlordNif(landlordNif);
         if (contractEntityList.isEmpty()) {
             throw new NoSuchElementException(CONTRACT_NOT_IN_DB);
         }
         return contractMapper.toModel(contractEntityList);
-    }*/
+    }
 
     @Transactional
-    public ContractResponse findByRoomId(Long id) {
-        RoomEntity roomEntity = roomService.findOneEntity(id);
+    public List<ContractResponse> findByTenantNif(String tenantNif) {
+        List<ContractEntity> contractEntityList = contractRepository.findByTenantNif(tenantNif);
+        if (contractEntityList.isEmpty()) {
+            throw new NoSuchElementException(CONTRACT_NOT_IN_DB);
+        }
+        return contractMapper.toModel(contractEntityList);
+    }
+
+    @Transactional
+    public ContractResponse findByRoomId(Long roomId) {
+        RoomEntity roomEntity = roomService.findOneEntity(roomId);
         Optional<ContractEntity> contractEntity = contractRepository.findByRoomId(roomEntity);
         if (contractEntity.isEmpty()) {
             throw new NoSuchElementException(CONTRACT_NOT_IN_DB);
