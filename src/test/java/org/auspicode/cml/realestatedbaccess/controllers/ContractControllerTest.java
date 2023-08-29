@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = ContractController.class)
 class ContractControllerTest {
-    
+
     MockMvc mockMvc;
 
     @MockBean
@@ -107,7 +107,7 @@ class ContractControllerTest {
     }
 
     @Test
-    void whenFindByTenantIdWithoutTenantId_ReturnBadRequestError() throws Exception {
+    void whenFindByTenantNifWithoutTenantNif_ReturnBadRequestError() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/contract/tenant")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("tenantNif", (String) null))
@@ -116,6 +116,29 @@ class ContractControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
                 .andExpect(jsonPath("$.title").value(BAD_REQUEST))
                 .andExpect(jsonPath("$.detail").value("Required parameter 'tenantNif' is not present."));
+    }
+
+    @Test
+    void whenFindByLandlordNif_ReturnContract() throws Exception {
+        Mockito.when(contractService.findByLandlordNif(any(String.class))).thenReturn(new ArrayList<>());
+        mockMvc.perform(MockMvcRequestBuilders.get("/contract/landlord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", "123123123"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+    }
+
+    @Test
+    void whenFindByLandlordNifWithoutLandlordNif_ReturnBadRequestError() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/contract/landlord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", (String) null))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(jsonPath("$.title").value(BAD_REQUEST))
+                .andExpect(jsonPath("$.detail").value("Required parameter 'landlordNif' is not present."));
     }
 
     @Test
