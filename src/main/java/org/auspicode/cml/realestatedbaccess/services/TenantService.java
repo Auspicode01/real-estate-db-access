@@ -54,12 +54,13 @@ public class TenantService {
         return tenantMapper.toModel(tenantEntity);
     }
 
-    public TenantEntity createTenant(CreateUserRequest tenant) {
+    public UserResponse createTenant(CreateUserRequest tenant) {
         Optional<TenantEntity> tenantInDb = tenantRepository.findByIdNifAndIdIdCardNumberAndIdFullName(tenant.getNif(), tenant.getIdCardNumber(), tenant.getFullName());
         if (tenantInDb.isPresent()) {
             throw new EntryAlreadyInDbException(TENANT_ALREADY_IN_DB);
         }
-        return tenantRepository.save(tenantMapper.createTenantRequestToEntity(tenant));
+        TenantEntity tenantEntity = tenantMapper.createTenantRequestToEntity(tenant);
+        return tenantMapper.toModel(tenantRepository.save(tenantEntity));
     }
 
     @Transactional
@@ -77,10 +78,10 @@ public class TenantService {
     }
 
     @Transactional
-    public TenantEntity deleteTenant(String tenantNif) {
+    public UserResponse deleteTenant(String tenantNif) {
         TenantEntity tenantEntity = findEntityByNif(tenantNif);
         tenantRepository.delete(tenantEntity);
-        return tenantEntity;
+        return tenantMapper.toModel(tenantEntity);
     }
 
     @Transactional

@@ -129,7 +129,7 @@ class LandlordControllerTest {
 
     @Test
     void whenCreateLandlord_ReturnOk() throws Exception {
-        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/landlords/createLandlordValidRequest.json");
+        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/users/createUserValidRequest.json");
         Mockito.when(landlordService.createLandlord(any(CreateUserRequest.class))).thenReturn(UserResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/landlord")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -141,7 +141,7 @@ class LandlordControllerTest {
 
     @Test
     void whenCreateLandlordWithoutNif_ReturnBadRequestError() throws Exception {
-        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/landlords/createLandlordWithoutNif.json");
+        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/users/createUserWithoutNif.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/landlord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -154,7 +154,7 @@ class LandlordControllerTest {
 
     @Test
     void whenCreateWithoutIdCardNumber_ReturnBadRequestError() throws Exception {
-        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/landlords/createLandlordWithoutIdCardNumber.json");
+        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/users/createUserWithoutIdCardNumber.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/landlord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -167,7 +167,7 @@ class LandlordControllerTest {
 
     @Test
     void whenCreateWithoutFullName_ReturnBadRequestError() throws Exception {
-        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/landlords/createLandlordWithoutFullName.json");
+        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/users/createUserWithoutFullName.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/landlord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -180,7 +180,7 @@ class LandlordControllerTest {
 
     @Test
     void whenCreateWithoutBirthDate_ReturnBadRequestError() throws Exception {
-        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/landlords/createLandlordWithoutBirthDate.json");
+        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/users/createUserWithoutBirthDate.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/landlord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -193,7 +193,7 @@ class LandlordControllerTest {
 
     @Test
     void whenCreateWithoutNib_ReturnBadRequestError() throws Exception {
-        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/landlords/createLandlordWithoutNib.json");
+        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/users/createUserWithoutNib.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/landlord")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))

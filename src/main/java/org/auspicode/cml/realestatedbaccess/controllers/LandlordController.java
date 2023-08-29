@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class LandlordController {
 
-
     private final LandlordService landlordService;
 
     @Operation(

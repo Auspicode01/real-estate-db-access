@@ -1,6 +1,7 @@
 package org.auspicode.cml.realestatedbaccess.services;
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.entities.RoomEntity;
 import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
 import org.auspicode.cml.realestatedbaccess.exception.AllRoomsCreatedForUnitException;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.*;
 
 @Service
+@AllArgsConstructor
 public class RoomService {
 
     private final RoomRepository roomRepository;
@@ -28,18 +30,12 @@ public class RoomService {
 
     private final RoomMapper roomMapper;
 
-    public RoomService(RoomRepository roomRepository, UnitService unitService, RoomMapper roomMapper) {
-        this.roomRepository = roomRepository;
-        this.unitService = unitService;
-        this.roomMapper = roomMapper;
-    }
-
     public List<RoomResponse> retrieveRooms() {
         return roomMapper.toModel(roomRepository.findAll());
     }
 
-    public RoomResponse findOne(Long id) {
-        RoomEntity roomEntity = findOneEntity(id);
+    public RoomResponse findOne(Long roomId) {
+        RoomEntity roomEntity = findOneEntity(roomId);
         return roomMapper.toModel(roomEntity);
     }
 
@@ -50,48 +46,49 @@ public class RoomService {
     }
 
     @Transactional
-    public RoomEntity createRoom(RoomRequest roomRequest) {
+    public RoomResponse createRoom(RoomRequest roomRequest) {
         UnitEntity unit = unitService.findOneEntity(roomRequest.getUnitId());
-        if (checkNumberOfRoomsForUnit(unit)) {
+        if (Boolean.TRUE.equals(checkNumberOfRoomsForUnit(unit))) {
             throw new AllRoomsCreatedForUnitException(ALL_ROOMS_ALREADY_IN_DB);
         }
-        return roomRepository.save(roomMapper.toEntity(roomRequest, unit));
+        RoomEntity roomEntity = roomMapper.toEntity(roomRequest, unit);
+        return roomMapper.toModel(roomRepository.save(roomEntity));
     }
 
     private Boolean checkNumberOfRoomsForUnit(UnitEntity unit) {
         return unit.getRooms().size() == unit.getTypology().getNumberOfRooms();
     }
 
-    public RoomResponse updateRoom(Long id, UpdateRoomRequest updateRoomRequest) {
-        RoomEntity roomEntity = findOneEntity(id);
+    public RoomResponse updateRoom(Long roomId, UpdateRoomRequest updateRoomRequest) {
+        RoomEntity roomEntity = findOneEntity(roomId);
         roomMapper.updateRoomToEntity(updateRoomRequest, roomEntity);
         roomRepository.save(roomEntity);
         return roomMapper.toModel(roomEntity);
     }
 
-    public RoomEntity deleteRoom(Long id) {
-        RoomEntity roomEntity = findOneEntity(id);
-        if (roomRepository.findByIdAndIsAvailable(id).isEmpty()) {
+    public RoomResponse deleteRoom(Long roomId) {
+        RoomEntity roomToDelete = findOneEntity(roomId);
+        if (roomRepository.findByIdAndIsAvailable(roomId).isEmpty()) {
             throw new RoomIsOccupiedException(ROOM_CAN_NOT_BE_DELETED);
         }
-        roomRepository.delete(roomEntity);
-        return roomEntity;
+        roomRepository.delete(roomToDelete);
+        return roomMapper.toModel(roomToDelete);
     }
 
-    protected RoomEntity findOneEntity(Long id) {
-        Optional<RoomEntity> roomEntity = roomRepository.findById(id);
+    protected RoomEntity findOneEntity(Long roomId) {
+        Optional<RoomEntity> roomEntity = roomRepository.findById(roomId);
         if (roomEntity.isEmpty()) {
             throw new NoSuchElementException(ROOM_NOT_IN_DB);
         }
         return roomEntity.get();
     }
 
-    protected RoomEntity findAvailableRoomToAddToContract(Long id, UnitEntity unitEntity) {
-        Optional<RoomEntity> roomEntity = roomRepository.findByIdAndUnitId(id, unitEntity.getId());
+    protected RoomEntity findAvailableRoomToAddToContract(Long roomId, UnitEntity unitEntity) {
+        Optional<RoomEntity> roomEntity = roomRepository.findByIdAndUnitId(roomId, unitEntity.getId());
         if (roomEntity.isEmpty()) {
             throw new NoSuchRoomException(ROOM_DOES_NOT_MATCH_UNIT);
         }
-        if (roomRepository.findByIdAndIsAvailable(id).isEmpty()) {
+        if (roomRepository.findByIdAndIsAvailable(roomId).isEmpty()) {
             throw new RoomIsOccupiedException(ROOM_NOT_AVAILABLE);
         }
         roomEntity.get().setIsAvailable(!roomEntity.get().getIsAvailable());

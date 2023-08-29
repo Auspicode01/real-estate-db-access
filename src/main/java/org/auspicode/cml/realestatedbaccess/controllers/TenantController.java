@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.auspicode.cml.realestatedbaccess.entities.TenantEntity;
 import org.auspicode.cml.realestatedbaccess.models.Contact;
 import org.auspicode.cml.realestatedbaccess.models.CreateUserRequest;
 import org.auspicode.cml.realestatedbaccess.models.UserResponse;
@@ -57,7 +56,7 @@ public class TenantController {
             description = "Define a new Tenant's fields and store it in the database"
     )
     @PostMapping(value = "/tenant")
-    public ResponseEntity<TenantEntity> createTenant(@RequestBody(required = true) @Valid CreateUserRequest tenant) {
+    public ResponseEntity<UserResponse> createTenant(@RequestBody(required = true) @Valid CreateUserRequest tenant) {
         return new ResponseEntity<>(tenantService.createTenant(tenant), HttpStatus.CREATED);
     }
 
@@ -84,7 +83,7 @@ public class TenantController {
             description = "Delete a Tenant and all its associated information"
     )
     @DeleteMapping(value = "/tenant")
-    public ResponseEntity<TenantEntity> deleteTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif) {
+    public ResponseEntity<UserResponse> deleteTenant(@RequestParam(name = "tenantNif", required = true) String tenantNif) {
         return new ResponseEntity<>(tenantService.deleteTenant(tenantNif), HttpStatus.OK);
     }
 

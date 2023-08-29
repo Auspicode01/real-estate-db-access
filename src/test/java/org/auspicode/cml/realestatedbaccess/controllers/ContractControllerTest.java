@@ -28,8 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = ContractController.class)
 class ContractControllerTest {
-
-
+    
     MockMvc mockMvc;
 
     @MockBean
@@ -55,7 +54,7 @@ class ContractControllerTest {
         Mockito.when(contractService.findOne(any(Long.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.get("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("id", "1"))
+                        .param("contractId", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -65,12 +64,12 @@ class ContractControllerTest {
     void whenFindOneContractWithoutId_ReturnBadRequestError() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("id", (String) null))
+                        .param("contractId", (String) null))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
                 .andExpect(jsonPath("$.title").value(BAD_REQUEST))
-                .andExpect(jsonPath("$.detail").value("Required parameter 'id' is not present."));
+                .andExpect(jsonPath("$.detail").value("Required parameter 'contractId' is not present."));
     }
 
     @Test
@@ -97,8 +96,8 @@ class ContractControllerTest {
     }
 
     @Test
-    void whenFindByTenantId_ReturnContract() throws Exception {
-        Mockito.when(contractService.findByUnitId(any(String.class))).thenReturn(new ArrayList<>());
+    void whenFindByTenantNif_ReturnContract() throws Exception {
+        Mockito.when(contractService.findByTenantNif(any(String.class))).thenReturn(new ArrayList<>());
         mockMvc.perform(MockMvcRequestBuilders.get("/contract/tenant")
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("tenantNif", "123123123"))
@@ -157,7 +156,6 @@ class ContractControllerTest {
     @Test
     void whenCreateContractWithoutStartDate_ReturnBadRequestError() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/contracts/createContractWithoutStartDate.json");
-        Mockito.when(contractService.createContract(any(CreateContractRequest.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -171,7 +169,6 @@ class ContractControllerTest {
     @Test
     void whenCreateContractWithoutEndDate_ReturnBadRequestError() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/contracts/createContractWithoutEndDate.json");
-        Mockito.when(contractService.createContract(any(CreateContractRequest.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -185,7 +182,6 @@ class ContractControllerTest {
     @Test
     void whenCreateContractWithoutLandlordsNif_ReturnBadRequestError() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/contracts/createContractWithoutLandlordsNif.json");
-        Mockito.when(contractService.createContract(any(CreateContractRequest.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -199,7 +195,6 @@ class ContractControllerTest {
     @Test
     void whenCreateContractWithoutTenantsNif_ReturnBadRequestError() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/contracts/createContractWithoutTenantsNif.json");
-        Mockito.when(contractService.createContract(any(CreateContractRequest.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -213,7 +208,6 @@ class ContractControllerTest {
     @Test
     void whenCreateContractWithoutUnitId_ReturnBadRequestError() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/contracts/createContractWithoutUnitId.json");
-        Mockito.when(contractService.createContract(any(CreateContractRequest.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -227,7 +221,6 @@ class ContractControllerTest {
     @Test
     void whenCreateContractWithoutRoomId_ReturnBadRequestError() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/contracts/createContractWithoutRoomId.json");
-        Mockito.when(contractService.createContract(any(CreateContractRequest.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -241,7 +234,6 @@ class ContractControllerTest {
     @Test
     void whenCreateContractWithoutType_ReturnBadRequestError() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/contracts/createContractWithoutType.json");
-        Mockito.when(contractService.createContract(any(CreateContractRequest.class))).thenReturn(ContractResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
@@ -254,10 +246,10 @@ class ContractControllerTest {
 
     @Test
     void whenDeleteContract_ReturnOk() throws Exception {
-        Mockito.when(contractService.findOne(any(Long.class))).thenReturn(ContractResponse.builder().build());
-        mockMvc.perform(MockMvcRequestBuilders.get("/contract")
+        Mockito.when(contractService.deleteContract(any(Long.class))).thenReturn(ContractResponse.builder().build());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("id", "1"))
+                        .param("contractId", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -265,13 +257,13 @@ class ContractControllerTest {
 
     @Test
     void whenDeleteContractWithoutId_ReturnBadRequestError() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/contract")
+        mockMvc.perform(MockMvcRequestBuilders.delete("/contract")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("id", (String) null))
+                        .param("contractId", (String) null))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
                 .andExpect(jsonPath("$.title").value(BAD_REQUEST))
-                .andExpect(jsonPath("$.detail").value("Required parameter 'id' is not present."));
+                .andExpect(jsonPath("$.detail").value("Required parameter 'contractId' is not present."));
     }
 }

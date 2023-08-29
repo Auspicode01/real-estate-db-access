@@ -3,7 +3,7 @@ package org.auspicode.cml.realestatedbaccess.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.auspicode.cml.realestatedbaccess.entities.RoomEntity;
+import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.models.RoomRequest;
 import org.auspicode.cml.realestatedbaccess.models.RoomResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateRoomRequest;
@@ -17,13 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("")
 @Tag(name = "Room")
+@AllArgsConstructor
 public class RoomController {
 
     private final RoomService roomService;
-
-    public RoomController(RoomService roomService) {
-        this.roomService = roomService;
-    }
 
     @Operation(
             summary = "List Rooms",
@@ -39,8 +36,8 @@ public class RoomController {
             description = "Retrieve a Room by its ID"
     )
     @GetMapping(value = "/room", produces = {"application/json"})
-    public ResponseEntity<RoomResponse> findOne(@RequestParam(name = "id", required = true) Long id) {
-        return new ResponseEntity<>(roomService.findOne(id), HttpStatus.OK);
+    public ResponseEntity<RoomResponse> findOne(@RequestParam(name = "roomId", required = true) Long roomId) {
+        return new ResponseEntity<>(roomService.findOne(roomId), HttpStatus.OK);
     }
 
     @Operation(
@@ -57,7 +54,7 @@ public class RoomController {
             description = "Define a new Room's fields and store it in the database"
     )
     @PostMapping(value = "/room", produces = {"application/json"})
-    public ResponseEntity<RoomEntity> createRoom(@Valid @RequestBody RoomRequest roomRequest) {
+    public ResponseEntity<RoomResponse> createRoom(@Valid @RequestBody RoomRequest roomRequest) {
         return new ResponseEntity<>(roomService.createRoom(roomRequest), HttpStatus.CREATED);
     }
 
@@ -66,8 +63,8 @@ public class RoomController {
             description = "Update a Room currently registered in the database. Only the following fields can be updated: unitId, price, capacity and isSuite"
     )
     @PutMapping(value = "/room", produces = {"application/json"})
-    public ResponseEntity<RoomResponse> updateRoom(@RequestParam Long id, @Valid @RequestBody UpdateRoomRequest updateRoomRequest) {
-        return new ResponseEntity<>(roomService.updateRoom(id, updateRoomRequest), HttpStatus.OK);
+    public ResponseEntity<RoomResponse> updateRoom(@RequestParam(name = "roomId", required = true) Long roomId, @Valid @RequestBody UpdateRoomRequest updateRoomRequest) {
+        return new ResponseEntity<>(roomService.updateRoom(roomId, updateRoomRequest), HttpStatus.OK);
     }
 
     @Operation(
@@ -75,7 +72,7 @@ public class RoomController {
             description = "Delete a Room and all its associated information"
     )
     @DeleteMapping(value = "/room", produces = {"application/json"})
-    public ResponseEntity<RoomEntity> deleteRoom(@RequestParam Long id) {
-        return new ResponseEntity<>(roomService.deleteRoom(id), HttpStatus.OK);
+    public ResponseEntity<RoomResponse> deleteRoom(@RequestParam(name = "roomId", required = true) Long roomId) {
+        return new ResponseEntity<>(roomService.deleteRoom(roomId), HttpStatus.OK);
     }
 }

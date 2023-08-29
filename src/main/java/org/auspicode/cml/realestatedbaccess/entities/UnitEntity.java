@@ -18,6 +18,7 @@ import java.util.List;
 @Table(name = "UNITS")
 public class UnitEntity {
 
+    @NotBlank
     @Id
     @Size(max = 80)
     @Column(name = "ID", nullable = false, length = 80, updatable = false)

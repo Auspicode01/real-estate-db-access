@@ -23,6 +23,7 @@ public interface RoomMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "unitId", source = "unitEntity")
     @Mapping(target = "isAvailable", constant = "true")
+    @Mapping(target = "capacity", source = "roomRequest.capacity", defaultExpression = "java(1)")
     @Mapping(target = "isSuite", source = "roomRequest.isSuite", defaultExpression = "java(false)")
     RoomEntity toEntity(RoomRequest roomRequest, UnitEntity unitEntity);
 

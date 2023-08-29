@@ -3,6 +3,7 @@ package org.auspicode.cml.realestatedbaccess.controllers;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateUnitRequest;
@@ -16,13 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("")
 @Tag(name = "Units")
+@AllArgsConstructor
 public class UnitController {
 
     private final UnitService unitService;
-
-    public UnitController(UnitService unitService) {
-        this.unitService = unitService;
-    }
 
     @Operation(
             summary = "List Units",
@@ -38,8 +36,8 @@ public class UnitController {
             description = "Retrieve a Unit by its ID"
     )
     @GetMapping(value = "/unit", produces = {"application/json"})
-    public ResponseEntity<UnitResponse> findOne(@RequestParam(name = "id", required = true) String id) {
-        return new ResponseEntity<>(unitService.findOne(id), HttpStatus.OK);
+    public ResponseEntity<UnitResponse> findOne(@RequestParam(name = "unitId", required = true) String unitId) {
+        return new ResponseEntity<>(unitService.findOne(unitId), HttpStatus.OK);
     }
 
     @Operation(
@@ -47,7 +45,7 @@ public class UnitController {
             description = "Define a new Unit's fields and store it in the database"
     )
     @PostMapping(value = "/unit", produces = {"application/json"})
-    public ResponseEntity<UnitEntity> createUnit(@Valid @RequestBody UnitEntity unitEntity) {
+    public ResponseEntity<UnitResponse> createUnit(@Valid @RequestBody UnitEntity unitEntity) {
         return new ResponseEntity<>(unitService.createUnit(unitEntity), HttpStatus.CREATED);
     }
 
@@ -56,8 +54,8 @@ public class UnitController {
             description = "Update a Unit currently registered in the database. Only the following fields can be updated: unitId, town and typology"
     )
     @PutMapping(value = "/unit")
-    public ResponseEntity<UnitResponse> updateTenant(@RequestParam(name = "unitId", required = true) String id, @Valid @RequestBody(required = true) UpdateUnitRequest updateUnitRequest) {
-        return new ResponseEntity<>(unitService.updateUnit(id, updateUnitRequest), HttpStatus.OK);
+    public ResponseEntity<UnitResponse> updateUnit(@RequestParam(name = "unitId", required = true) String unitId, @Valid @RequestBody(required = true) UpdateUnitRequest updateUnitRequest) {
+        return new ResponseEntity<>(unitService.updateUnit(unitId, updateUnitRequest), HttpStatus.OK);
     }
 
     @Operation(
@@ -65,7 +63,7 @@ public class UnitController {
             description = "Delete a Unit and all its associated information including all its Rooms"
     )
     @DeleteMapping(value = "/unit", produces = {"application/json"})
-    public ResponseEntity<UnitResponse> deleteUnit(@RequestParam(name = "id", required = true) String id) {
-        return new ResponseEntity<>(unitService.deleteUnit(id), HttpStatus.OK);
+    public ResponseEntity<UnitResponse> deleteUnit(@RequestParam(name = "unitId", required = true) String unitId) {
+        return new ResponseEntity<>(unitService.deleteUnit(unitId), HttpStatus.OK);
     }
 }

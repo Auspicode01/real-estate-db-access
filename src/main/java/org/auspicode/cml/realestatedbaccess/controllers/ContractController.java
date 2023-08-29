@@ -35,8 +35,8 @@ public class ContractController {
             description = "Retrieve a Contract by its ID"
     )
     @GetMapping(value = "/contract", produces = {"application/json"})
-    public ResponseEntity<ContractResponse> findOne(@RequestParam(name = "id", required = true) Long id) {
-        return new ResponseEntity<>(contractService.findOne(id), HttpStatus.OK);
+    public ResponseEntity<ContractResponse> findOne(@RequestParam(name = "contractId", required = true) Long contractId) {
+        return new ResponseEntity<>(contractService.findOne(contractId), HttpStatus.OK);
     }
 
     @Operation(
@@ -89,7 +89,7 @@ public class ContractController {
             description = "Delete a Contract and all its associated information with the exception of the entities: Unit, Room, Tenant"
     )
     @DeleteMapping(value = "/contract", produces = {"application/json"})
-    public ResponseEntity<ContractResponse> deleteContract(@RequestParam(name = "id", required = true) Long id) {
-        return new ResponseEntity<>(contractService.deleteContract(id), HttpStatus.OK);
+    public ResponseEntity<ContractResponse> deleteContract(@RequestParam(name = "contractId", required = true) Long contractId) {
+        return new ResponseEntity<>(contractService.deleteContract(contractId), HttpStatus.OK);
     }
 }
