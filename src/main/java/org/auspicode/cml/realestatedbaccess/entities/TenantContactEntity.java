@@ -35,6 +35,6 @@ public class TenantContactEntity {
 
     @NotBlank
     @Size(max = 80)
-    @Column(name = "VALUE", length = 80, nullable = false)
+    @Column(name = "`VALUE`", length = 80, nullable = false)
     private String value;
 }

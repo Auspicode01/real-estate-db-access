@@ -10,6 +10,10 @@ public class TestConstants {
 
     public static final String USER_NIF = "123.123.123";
 
+    public static final String USER_ID_CARD_NUMBER = "29384750";
+
+    public static final String USER_FULL_NAME = "Cristela Santos";
+
     public static final String UNIT_ID = "01";
 
     public static final String ROOM_ID = "1";
