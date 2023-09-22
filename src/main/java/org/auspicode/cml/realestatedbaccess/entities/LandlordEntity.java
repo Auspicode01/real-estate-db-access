@@ -44,4 +44,8 @@ public class LandlordEntity {
     @OneToMany(mappedBy = "landlordEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonIgnoreProperties("landlordEntity")
     private Set<LandlordContactEntity> contacts;
+
+    @OneToMany(mappedBy = "landlordEntity", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"landlordEntity", "rooms"})
+    private Set<UnitEntity> units;
 }

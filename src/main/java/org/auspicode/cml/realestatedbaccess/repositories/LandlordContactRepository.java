@@ -14,5 +14,5 @@ public interface LandlordContactRepository extends JpaRepository<LandlordContact
 
     @NonNull Optional<LandlordContactEntity> findById(@NonNull Long id);
 
-    void deleteByLandlordEntityAndContactTypeAndValue(LandlordEntity landlord, ContactType type, String value);
+    void deleteByLandlordEntityAndContactTypeAndContact(LandlordEntity landlord, ContactType type, String contact);
 }

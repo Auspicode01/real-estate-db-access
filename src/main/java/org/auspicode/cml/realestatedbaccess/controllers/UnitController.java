@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
+import org.auspicode.cml.realestatedbaccess.models.CreateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.services.UnitService;
@@ -45,8 +46,9 @@ public class UnitController {
             description = "Define a new Unit's fields and store it in the database"
     )
     @PostMapping(value = "/unit", produces = {"application/json"})
-    public ResponseEntity<UnitResponse> createUnit(@Valid @RequestBody UnitEntity unitEntity) {
-        return new ResponseEntity<>(unitService.createUnit(unitEntity), HttpStatus.CREATED);
+    public ResponseEntity<UnitResponse> createUnit(@RequestParam(name = "landlordNif", required = true) String landlordNif,
+                                                   @Valid @RequestBody CreateUnitRequest createUnitRequest) {
+        return new ResponseEntity<>(unitService.createUnit(landlordNif, createUnitRequest), HttpStatus.CREATED);
     }
 
     @Operation(

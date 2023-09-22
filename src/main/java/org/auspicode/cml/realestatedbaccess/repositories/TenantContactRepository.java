@@ -14,5 +14,5 @@ public interface TenantContactRepository extends JpaRepository<TenantContactEnti
 
     @NonNull Optional<TenantContactEntity> findById(@NonNull Long id);
 
-    void deleteByTenantEntityAndContactTypeAndValue(TenantEntity tenant, ContactType type, String value);
+    void deleteByTenantEntityAndContactTypeAndContact(TenantEntity tenant, ContactType type, String contact);
 }

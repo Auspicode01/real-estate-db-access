@@ -66,6 +66,6 @@ public class ContractEntity {
             inverseJoinColumns = {@JoinColumn(name = "LANDLORD_NIF", referencedColumnName = "NIF", nullable = false, updatable = false),
                     @JoinColumn(name = "LANDLORD_ID_CARD_NUMBER", referencedColumnName = "ID_CARD_NUMBER", nullable = false, updatable = false),
                     @JoinColumn(name = "LANDLORD_FULL_NAME", referencedColumnName = "FULL_NAME", nullable = false, updatable = false)})
-    @JsonIgnoreProperties("contracts")
+    @JsonIgnoreProperties({"contracts", "units"})
     private Set<LandlordEntity> landlords;
 }

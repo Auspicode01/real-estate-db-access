@@ -2,6 +2,7 @@ package org.auspicode.cml.realestatedbaccess.controllers;
 
 import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
 import org.auspicode.cml.realestatedbaccess.exception.ApiExceptionHandler;
+import org.auspicode.cml.realestatedbaccess.models.CreateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.services.UnitService;
@@ -75,7 +76,7 @@ class UnitControllerTest {
     @Test
     void whenCreateUnit_ReturnOk() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitValidRequest.json");
-        Mockito.when(unitService.createUnit(any(UnitEntity.class))).thenReturn(UnitResponse.builder().build());
+        Mockito.when(unitService.createUnit(any(String.class), any(CreateUnitRequest.class))).thenReturn(UnitResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))

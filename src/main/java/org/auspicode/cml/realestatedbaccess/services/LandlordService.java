@@ -86,11 +86,11 @@ public class LandlordService {
 
     @Transactional
     public Boolean deleteContact(String landlordNif, Contact contact) {
-        landlordContactRepository.deleteByLandlordEntityAndContactTypeAndValue(findEntityByNif(landlordNif), contact.getContactType(), contact.getValue());
+        landlordContactRepository.deleteByLandlordEntityAndContactTypeAndContact(findEntityByNif(landlordNif), contact.getContactType(), contact.getContact());
         return true;
     }
 
-    private LandlordEntity findEntityByNif(String landlordNif) {
+    protected LandlordEntity findEntityByNif(String landlordNif) {
         Optional<LandlordEntity> landlordEntity = landlordRepository.findByIdNif(landlordNif);
         if (landlordEntity.isEmpty()) {
             throw new NoSuchElementException(LANDLORD_NOT_IN_DB);

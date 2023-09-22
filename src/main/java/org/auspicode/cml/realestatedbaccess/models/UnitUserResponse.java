@@ -1,16 +1,11 @@
 package org.auspicode.cml.realestatedbaccess.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import java.time.LocalDate;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -26,11 +21,10 @@ import java.util.Set;
         "birthDate",
         "age",
         "nib",
-        "units",
         "contacts",
         "contracts"
 })
-public class UserResponse {
+public class UnitUserResponse {
 
     @NotNull
     @Size(min = 11, max = 11)
@@ -46,27 +40,4 @@ public class UserResponse {
     @Size(max = 80)
     @JsonProperty("fullName")
     private String fullName;
-
-    @NotNull
-    @JsonProperty("birthDate")
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private LocalDate birthDate;
-
-    @NotNull
-    @JsonProperty("age")
-    private int age;
-
-    @NotBlank
-    @Size(min = 25, max = 25)
-    @JsonProperty("nib")
-    private String nib;
-
-    @JsonProperty("units")
-    private Set<UserUnitResponse> units;
-
-    @JsonProperty("contacts")
-    private Set<Contact> contacts;
-
-    @JsonProperty("contracts")
-    private Set<UserContractResponse> contracts;
 }

@@ -2,10 +2,12 @@ package org.auspicode.cml.realestatedbaccess.services;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.auspicode.cml.realestatedbaccess.entities.LandlordEntity;
 import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
 import org.auspicode.cml.realestatedbaccess.exception.EntryAlreadyInDbException;
 import org.auspicode.cml.realestatedbaccess.exception.RoomIsOccupiedException;
 import org.auspicode.cml.realestatedbaccess.mappers.UnitMapper;
+import org.auspicode.cml.realestatedbaccess.models.CreateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.repositories.UnitRepository;
@@ -23,6 +25,8 @@ public class UnitService {
 
     private final UnitRepository unitRepository;
 
+    private final LandlordService landlordService;
+
     private final UnitMapper unitMapper;
 
     @Transactional
@@ -36,11 +40,14 @@ public class UnitService {
         return unitMapper.toModel(unitEntity);
     }
 
-    public UnitResponse createUnit(UnitEntity unitEntity) {
-        Optional<UnitEntity> unitToCreate = unitRepository.findById(unitEntity.getId());
+    @Transactional
+    public UnitResponse createUnit(String landlordNif, CreateUnitRequest createUnitRequest) {
+        Optional<UnitEntity> unitToCreate = unitRepository.findById(createUnitRequest.getId());
         if (unitToCreate.isPresent()) {
             throw new EntryAlreadyInDbException(UNIT_ALREADY_IN_DB);
         }
+        LandlordEntity landlordEntity = landlordService.findEntityByNif(landlordNif);
+        UnitEntity unitEntity = unitMapper.toEntity(createUnitRequest, landlordEntity);
         return unitMapper.toModel(unitRepository.save(unitEntity));
     }
 

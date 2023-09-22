@@ -11,8 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
@@ -26,11 +24,9 @@ import java.util.List;
         "registerNumber",
         "town",
         "fraction",
-        "typology",
-        "landlord",
-        "rooms"
+        "typology"
 })
-public class UnitResponse {
+public class CreateUnitRequest {
 
     @NotNull
     @JsonProperty("id")
@@ -69,9 +65,4 @@ public class UnitResponse {
     @JsonProperty("typology")
     private String typology;
 
-    @JsonProperty("landlord")
-    private UnitUserResponse landlordEntity;
-
-    @JsonProperty("rooms")
-    private List<UnitRoomsResponse> rooms;
 }

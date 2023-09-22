@@ -17,7 +17,7 @@ import org.auspicode.cml.realestatedbaccess.entities.ContactType;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "contactType",
-        "value"
+        "contact"
 })
 public class Contact {
 
@@ -27,6 +27,6 @@ public class Contact {
 
     @NotBlank
     @Size(max = 80)
-    @JsonProperty("value")
-    private String value;
+    @JsonProperty("contact")
+    private String contact;
 }

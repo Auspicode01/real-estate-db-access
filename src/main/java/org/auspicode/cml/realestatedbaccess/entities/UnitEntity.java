@@ -61,4 +61,12 @@ public class UnitEntity {
     @JsonIgnoreProperties("unitId")
     @OneToMany(mappedBy = "unitId", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<RoomEntity> rooms;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LANDLORD_NIF", referencedColumnName = "NIF", nullable = false, updatable = false)
+    @JoinColumn(name = "LANDLORD_ID_CARD_NUMBER", referencedColumnName = "ID_CARD_NUMBER", nullable = false, updatable = false)
+    @JoinColumn(name = "LANDLORD_FULL_NAME", referencedColumnName = "FULL_NAME", nullable = false, updatable = false)
+    @JsonIgnoreProperties({"contracts", "units"})
+    private LandlordEntity landlordEntity;
 }

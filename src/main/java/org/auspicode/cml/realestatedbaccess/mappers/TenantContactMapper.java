@@ -13,6 +13,6 @@ public interface TenantContactMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "tenantEntity", source = "tenantEntity")
     @Mapping(target = "contactType", source = "contact.contactType")
-    @Mapping(target = "value", source = "contact.value")
+    @Mapping(target = "contact", source = "contact.contact")
     TenantContactEntity createContactRequestToEntity(TenantEntity tenantEntity, Contact contact);
 }

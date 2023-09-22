@@ -86,7 +86,7 @@ public class TenantService {
 
     @Transactional
     public Boolean deleteContact(String tenantNif, Contact contact) {
-        tenantContactRepository.deleteByTenantEntityAndContactTypeAndValue(findEntityByNif(tenantNif), contact.getContactType(), contact.getValue());
+        tenantContactRepository.deleteByTenantEntityAndContactTypeAndContact(findEntityByNif(tenantNif), contact.getContactType(), contact.getContact());
         return true;
     }
 

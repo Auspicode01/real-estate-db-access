@@ -28,6 +28,7 @@ public interface TenantMapper {
     @Mapping(target = "idCardNumber", source = "id.idCardNumber")
     @Mapping(target = "fullName", source = "id.fullName")
     @Mapping(target = "age", expression = "java(calculateAge(tenantEntity.getBirthDate()))")
+    @Mapping(target = "units", ignore = true)
     UserResponse toModel(TenantEntity tenantEntity);
 
     List<UserResponse> toModel(List<TenantEntity> tenantEntityList);

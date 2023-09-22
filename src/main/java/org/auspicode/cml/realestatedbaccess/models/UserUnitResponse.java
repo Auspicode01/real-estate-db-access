@@ -27,10 +27,9 @@ import java.util.List;
         "town",
         "fraction",
         "typology",
-        "landlord",
         "rooms"
 })
-public class UnitResponse {
+public class UserUnitResponse {
 
     @NotNull
     @JsonProperty("id")
@@ -68,9 +67,6 @@ public class UnitResponse {
     @NotBlank
     @JsonProperty("typology")
     private String typology;
-
-    @JsonProperty("landlord")
-    private UnitUserResponse landlordEntity;
 
     @JsonProperty("rooms")
     private List<UnitRoomsResponse> rooms;
