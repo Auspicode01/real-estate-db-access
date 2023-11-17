@@ -146,8 +146,6 @@ class TenantServiceTest {
     @Test
     @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
     void whenDeleteTenant_DeleteTenantFromDb() {
-        String newNib = "PT50002200003426584958633";
-
         tenantService.deleteTenant(USER_NIF);
 
         List<UserResponse> result = tenantService.retrieveTenants();
