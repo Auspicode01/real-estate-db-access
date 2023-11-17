@@ -1,8 +1,8 @@
 package org.auspicode.cml.realestatedbaccess.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
+import jakarta.transaction.Transactional;
 import org.auspicode.cml.realestatedbaccess.entities.ContactType;
 import org.auspicode.cml.realestatedbaccess.entities.TenantContactEntity;
 import org.auspicode.cml.realestatedbaccess.entities.TenantEntity;
@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.TENANT_ALREADY_IN_DB;
@@ -37,31 +38,15 @@ class TenantServiceTest {
     TenantService tenantService;
 
     @Test
-    @DataSet(value = "datasets/tenants.yml")
-    void whenRetrieveTenants_ReturnTenantsInDB() throws JsonProcessingException {
-        /*ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        TenantEntityId tenant1Id = TenantEntityId.builder()
-                .nif("696.609.103")
-                .idCardNumber("29384750")
-                .fullName("Cristela Santos")
-                .build();
-        TenantEntity tenant1 = TenantEntity.builder()
-                .id(tenant1Id)
-                .nib("PT50002200003426584958622")
-                .birthDate(LocalDate.of(1968, 3, 22))
-                .build();
-
-        tenantRepository.save(tenant1);
-        String json = objectMapper.writeValueAsString(tenant1);
-        String json2 = objectMapper.writeValueAsString(tenant2);*/
+    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    void whenRetrieveTenants_ReturnTenantsInDB() {
         List<UserResponse> tenantsList = tenantService.retrieveTenants();
 
         assertThat(tenantsList.size()).isEqualTo(2);
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml")
+    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
     void whenFindOneTenant_ReturnTenant() {
         UserResponse result = tenantService.findOne(USER_NIF, USER_ID_CARD_NUMBER, USER_FULL_NAME);
 
@@ -78,7 +63,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml")
+    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
     void whenFindByNif_ReturnTenant() {
         UserResponse result = tenantService.findByNif(USER_NIF);
 
@@ -113,7 +98,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml")
+    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
     void whenCreateTenantThatAlreadyExists_ReturnEntryAlreadyInDBException() {
         CreateUserRequest tenantToSave = CreateUserRequest.builder()
                 .nif(USER_NIF)
@@ -130,7 +115,8 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml")
+    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @Transactional
     void whenCreateTenantContact_SaveTenantContactInDB() {
         Contact contact = Contact.builder()
                 .contactType(ContactType.EMAIL)
@@ -143,5 +129,42 @@ class TenantServiceTest {
         assertThat(result.getContactType()).isEqualTo(contact.getContactType());
         assertThat(result.getContact()).isEqualTo(contact.getContact());
         assertThat(result.getTenantEntity().getId().getNif()).isEqualTo(USER_NIF);
+    }
+
+    @Test
+    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    void whenUpdateTenantNib_SaveNewTenantNib() {
+        String newNib = "PT50002200003426584958633";
+
+        tenantService.updateTenant(USER_NIF, newNib);
+
+        UserResponse result = tenantService.findByNif(USER_NIF);
+
+        assertThat(result.getNib()).isEqualTo(newNib);
+    }
+
+    @Test
+    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    void whenDeleteTenant_DeleteTenantFromDb() {
+        String newNib = "PT50002200003426584958633";
+
+        tenantService.deleteTenant(USER_NIF);
+
+        List<UserResponse> result = tenantService.retrieveTenants();
+
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    @DataSet(value = "datasets/tenants_with_contacts.yml", cleanAfter = true)
+    void whenDeleteTenantContact_DeleteTenantContactFromDb() {
+        String tenantNif = "123.445.249";
+        Contact contactToDelete = tenantService.findByNif(tenantNif).getContacts().iterator().next();
+
+        tenantService.deleteContact(tenantNif, contactToDelete);
+
+        Set<Contact> result = tenantService.findByNif(tenantNif).getContacts();
+
+        assertThat(result.size()).isEqualTo(0);
     }
 }
