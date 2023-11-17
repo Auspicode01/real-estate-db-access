@@ -145,7 +145,7 @@ class LandlordServiceTest {
 
     @Test
     @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
-    void whenDeleteLandlord_DeleteLandlordFromDb() {
+    void whenDeleteLandlord_DeleteLandlordFromDB() {
         landlordService.deleteLandlord(USER_NIF);
 
         List<UserResponse> result = landlordService.retrieveLandlords();
@@ -155,7 +155,7 @@ class LandlordServiceTest {
 
     @Test
     @DataSet(value = "datasets/landlords/landlords_with_contacts.yml", cleanAfter = true)
-    void whenDeleteLandlordContact_DeleteLandlordContactFromDb() {
+    void whenDeleteLandlordContact_DeleteLandlordContactFromDB() {
         String landlordNif = "123.445.249";
         Contact contactToDelete = landlordService.findByNif(landlordNif).getContacts().iterator().next();
 
