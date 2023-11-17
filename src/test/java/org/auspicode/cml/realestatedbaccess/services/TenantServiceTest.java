@@ -38,7 +38,7 @@ class TenantServiceTest {
     TenantService tenantService;
 
     @Test
-    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     void whenRetrieveTenants_ReturnTenantsInDB() {
         List<UserResponse> tenantsList = tenantService.retrieveTenants();
 
@@ -46,7 +46,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     void whenFindOneTenant_ReturnTenant() {
         UserResponse result = tenantService.findOne(USER_NIF, USER_ID_CARD_NUMBER, USER_FULL_NAME);
 
@@ -63,7 +63,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     void whenFindByNif_ReturnTenant() {
         UserResponse result = tenantService.findByNif(USER_NIF);
 
@@ -98,7 +98,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     void whenCreateTenantThatAlreadyExists_ReturnEntryAlreadyInDBException() {
         CreateUserRequest tenantToSave = CreateUserRequest.builder()
                 .nif(USER_NIF)
@@ -115,12 +115,12 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     @Transactional
     void whenCreateTenantContact_SaveTenantContactInDB() {
         Contact contact = Contact.builder()
                 .contactType(ContactType.EMAIL)
-                .contact("aqueleemail@gandamail.com")
+                .contact("email@mail.com")
                 .build();
         tenantService.createContact(USER_NIF, contact);
 
@@ -132,7 +132,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     void whenUpdateTenantNib_SaveNewTenantNib() {
         String newNib = "PT50002200003426584958633";
 
@@ -144,7 +144,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     void whenDeleteTenant_DeleteTenantFromDb() {
         tenantService.deleteTenant(USER_NIF);
 
@@ -154,7 +154,7 @@ class TenantServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants_with_contacts.yml", cleanAfter = true)
+    @DataSet(value = "datasets/tenants/tenants_with_contacts.yml", cleanAfter = true)
     void whenDeleteTenantContact_DeleteTenantContactFromDb() {
         String tenantNif = "123.445.249";
         Contact contactToDelete = tenantService.findByNif(tenantNif).getContacts().iterator().next();
