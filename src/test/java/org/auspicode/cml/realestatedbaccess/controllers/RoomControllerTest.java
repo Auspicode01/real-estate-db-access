@@ -54,7 +54,7 @@ class RoomControllerTest {
         Mockito.when(roomService.findOne(any(Long.class))).thenReturn(RoomResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.get("/room")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("roomId", ROOM_ID))
+                        .param("roomId", String.valueOf(ROOM_ID)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
@@ -139,7 +139,7 @@ class RoomControllerTest {
         Mockito.when(roomService.updateRoom(any(Long.class), any(UpdateRoomRequest.class))).thenReturn(RoomResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.put("/room")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("roomId", ROOM_ID)
+                        .param("roomId", String.valueOf(ROOM_ID))
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -164,7 +164,7 @@ class RoomControllerTest {
     void whenUpdateRoomWithoutBody_ReturnBadRequestError() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/room")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("roomId", ROOM_ID))
+                        .param("roomId", String.valueOf(ROOM_ID)))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
@@ -177,7 +177,7 @@ class RoomControllerTest {
         Mockito.when(roomService.deleteRoom(any(Long.class))).thenReturn(RoomResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.delete("/room")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("roomId", ROOM_ID))
+                        .param("roomId", String.valueOf(ROOM_ID)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));

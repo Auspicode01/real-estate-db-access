@@ -41,6 +41,11 @@ public class UnitService {
     }
 
     @Transactional
+    public List<UnitResponse> findByLandlordNif(String landlordNif) {
+        return unitMapper.toModel(unitRepository.findByLandlordNif(landlordNif));
+    }
+
+    @Transactional
     public UnitResponse createUnit(String landlordNif, CreateUnitRequest createUnitRequest) {
         Optional<UnitEntity> unitToCreate = unitRepository.findById(createUnitRequest.getId());
         if (unitToCreate.isPresent()) {

@@ -1,6 +1,5 @@
 package org.auspicode.cml.realestatedbaccess.controllers;
 
-import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
 import org.auspicode.cml.realestatedbaccess.exception.ApiExceptionHandler;
 import org.auspicode.cml.realestatedbaccess.models.CreateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
@@ -74,11 +73,35 @@ class UnitControllerTest {
     }
 
     @Test
+    void whenFindUnitByLandlordNif_ReturnOk() throws Exception {
+        Mockito.when(unitService.findByLandlordNif(any(String.class))).thenReturn(new ArrayList<>());
+        mockMvc.perform(MockMvcRequestBuilders.get("/unit/landlord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+    }
+
+    @Test
+    void whenFindUnitByLandlordNifWithoutLandlordNif_ReturnBadRequestError() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/unit/landlord")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", (String) null))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(jsonPath("$.title").value(BAD_REQUEST))
+                .andExpect(jsonPath("$.detail").value("Required parameter 'landlordNif' is not present."));
+    }
+
+    @Test
     void whenCreateUnit_ReturnOk() throws Exception {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitValidRequest.json");
         Mockito.when(unitService.createUnit(any(String.class), any(CreateUnitRequest.class))).thenReturn(UnitResponse.builder().build());
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().isCreated())
@@ -90,6 +113,7 @@ class UnitControllerTest {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitWithoutId.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
@@ -103,6 +127,7 @@ class UnitControllerTest {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitWithoutStreet.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
@@ -116,6 +141,7 @@ class UnitControllerTest {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitWithoutPostalCode.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
@@ -129,6 +155,7 @@ class UnitControllerTest {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitWithoutArticle.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
@@ -142,6 +169,7 @@ class UnitControllerTest {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitWithoutRegisterNumber.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
@@ -155,6 +183,7 @@ class UnitControllerTest {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitWithoutTown.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
@@ -168,12 +197,27 @@ class UnitControllerTest {
         String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitWithoutTypology.json");
         mockMvc.perform(MockMvcRequestBuilders.post("/unit")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", USER_NIF)
                         .content(requestBody))
                 .andDo(print())
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
                 .andExpect(jsonPath("$.title").value(BAD_REQUEST))
                 .andExpect(jsonPath("$.detail").value(INVALID_REQUEST_CONTENT));
+    }
+
+    @Test
+    void whenCreateUnitWithoutLandlordNif_ReturnBadRequestError() throws Exception {
+        String requestBody = TestUtils.readJsonStringFromResourceFile("/json/units/createUnitValidRequest.json");
+        mockMvc.perform(MockMvcRequestBuilders.post("/unit")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("landlordNif", (String) null)
+                        .content(requestBody))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(MediaType.APPLICATION_PROBLEM_JSON))
+                .andExpect(jsonPath("$.title").value(BAD_REQUEST))
+                .andExpect(jsonPath("$.detail").value("Required parameter 'landlordNif' is not present."));
     }
 
     @Test

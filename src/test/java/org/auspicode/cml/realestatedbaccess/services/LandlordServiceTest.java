@@ -89,12 +89,12 @@ class LandlordServiceTest {
                 .birthDate(LocalDate.of(1999, 7, 01))
                 .build();
 
-        UserResponse SavedLandlord = landlordService.createLandlord(landlordToSave);
+        UserResponse savedLandlord = landlordService.createLandlord(landlordToSave);
 
         Optional<LandlordEntity> result = landlordRepository.findByIdNif("123.123.123");
 
-        assertThat(SavedLandlord.getNif()).isEqualTo(result.get().getId().getNif());
-        assertThat(SavedLandlord.getNib()).isEqualTo(result.get().getNib());
+        assertThat(savedLandlord.getNif()).isEqualTo(result.get().getId().getNif());
+        assertThat(savedLandlord.getNib()).isEqualTo(result.get().getNib());
     }
 
     @Test

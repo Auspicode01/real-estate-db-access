@@ -60,6 +60,21 @@ class UnitServiceTest {
         assertThat(noSuchElementException.getMessage()).isEqualTo(UNIT_NOT_IN_DB);
     }
 
+    @Test
+    @DataSet(value = "datasets/units/units.yml", cleanAfter = true)
+    void whenFindByLandlordNif_ReturnUnit() {
+        List<UnitResponse> unitResponseList = unitService.findByLandlordNif(USER_NIF);
+
+        assertThat(unitResponseList.get(0).getLandlordEntity().getNif()).isEqualTo(USER_NIF);
+        assertThat(unitResponseList.size()).isEqualTo(1);
+    }
+
+    @Test
+    void whenFindLandlordNifNotInDB_ReturnEmptyList() {
+        List<UnitResponse> unitResponseList = unitService.findByLandlordNif(USER_NIF);
+
+        assertThat(unitResponseList.size()).isEqualTo(0);
+    }
 
     @Test
     @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
@@ -75,12 +90,12 @@ class UnitServiceTest {
                 .typology("T2")
                 .build();
 
-        UnitResponse SavedUnit = unitService.createUnit(USER_NIF, unitToSave);
+        UnitResponse savedUnit = unitService.createUnit(USER_NIF, unitToSave);
 
         Optional<UnitEntity> result = unitRepository.findById(UNIT_ID);
 
-        assertThat(SavedUnit.getId()).isEqualTo(result.get().getId());
-        assertThat(SavedUnit.getStreet()).isEqualTo(result.get().getStreet());
+        assertThat(savedUnit.getId()).isEqualTo(result.get().getId());
+        assertThat(savedUnit.getStreet()).isEqualTo(result.get().getStreet());
     }
 
     @Test
@@ -154,7 +169,7 @@ class UnitServiceTest {
 
     @Test
     @DataSet(value = "datasets/units/units.yml", cleanAfter = true)
-    void whenDeleteUNit_DeleteUnitFromDB() {
+    void whenDeleteUnit_DeleteUnitFromDB() {
         unitService.deleteUnit(UNIT_ID);
 
         List<UnitResponse> result = unitService.retrieveUnits();

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
 import org.auspicode.cml.realestatedbaccess.models.CreateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateUnitRequest;
@@ -39,6 +38,15 @@ public class UnitController {
     @GetMapping(value = "/unit", produces = {"application/json"})
     public ResponseEntity<UnitResponse> findOne(@RequestParam(name = "unitId", required = true) String unitId) {
         return new ResponseEntity<>(unitService.findOne(unitId), HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Get Units by Landlord Nif",
+            description = "Retrieve all Units with a given LANDLORD_NIF"
+    )
+    @GetMapping(value = "/unit/landlord", produces = {"application/json"})
+    public ResponseEntity<List<UnitResponse>> findByLandlordNif(@RequestParam(name = "landlordNif", required = true) String landlordNif) {
+        return new ResponseEntity<>(unitService.findByLandlordNif(landlordNif), HttpStatus.OK);
     }
 
     @Operation(

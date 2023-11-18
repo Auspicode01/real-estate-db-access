@@ -1,0 +1,55 @@
+LANDLORDS:
+  - NIF: "696.609.103"
+    ID_CARD_NUMBER: "29384750"
+    FULL_NAME: "Cristela Santos"
+    BIRTH_DATE: "1968-03-22"
+    ORIGINAL_ADDRESS: null
+    NIB: "PT50002200003426584958622"
+  - NIF: "123.445.249"
+    ID_CARD_NUMBER: "29384759"
+    FULL_NAME: "Horácio Lima"
+    BIRTH_DATE: "1983-07-01"
+    ORIGINAL_ADDRESS: null
+    NIB: "PT50002200003426584958600"
+UNITS:
+  - ID: "leirinhas"
+    LANDLORD_NIF: "696.609.103"
+    LANDLORD_ID_CARD_NUMBER: "29384750"
+    LANDLORD_FULL_NAME: "Cristela Santos"
+    STREET: "Rua dos alperces"
+    POSTAL_CODE: "3800-123"
+    ARTICLE: "1234"
+    REGISTER_NUMBER: "4444"
+    TOWN: "Aveiro"
+    FRACTION: "1ºDTO"
+    TYPOLOGY: "T3"
+  - ID: "01"
+    LANDLORD_NIF: "123.445.249"
+    LANDLORD_ID_CARD_NUMBER: "29384759"
+    LANDLORD_FULL_NAME: "Horácio Lima"
+    STREET: "Travessa das Leirinhas"
+    POSTAL_CODE: "3810-001"
+    ARTICLE: "9999"
+    REGISTER_NUMBER: "9999"
+    TOWN: "Aveiro"
+    FRACTION: ""
+    TYPOLOGY: "T2"
+ROOMS:
+  - ID: 1
+    UNIT_ID: "01"
+    AVAILABLE: true
+    PRICE: 250
+    CAPACITY: 1
+    IS_SUITE: false
+  - ID: 2
+    UNIT_ID: "01"
+    AVAILABLE: true
+    PRICE: 200
+    CAPACITY: 1
+    IS_SUITE: false
+  - ID: 3
+    UNIT_ID: "leirinhas"
+    AVAILABLE: true
+    PRICE: 280
+    CAPACITY: 1
+    IS_SUITE: true
