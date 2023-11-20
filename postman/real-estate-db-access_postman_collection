@@ -1,0 +1,1322 @@
+{
+	"info": {
+		"_postman_id": "74ef76b9-5586-4d1d-8b8f-a63bb6949732",
+		"name": "real-estate-db-access",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27587277"
+	},
+	"item": [
+		{
+			"name": "tenants",
+			"item": [
+				{
+					"name": "listTenants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/tenant/list",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTenantById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/tenant?tenantNif=509.609.799&tenantIdCardNumber=18038255&tenantFullName=Adernalino do Cabedal",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant"
+							],
+							"query": [
+								{
+									"key": "tenantNif",
+									"value": "509.609.799"
+								},
+								{
+									"key": "tenantIdCardNumber",
+									"value": "18038255"
+								},
+								{
+									"key": "tenantFullName",
+									"value": "Adernalino do Cabedal"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTenantByNif",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/tenant/nif?tenantNif=509.609.800",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant",
+								"nif"
+							],
+							"query": [
+								{
+									"key": "tenantNif",
+									"value": "509.609.800"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createTenant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nif\": \"509.609.798\",\n    \"idCardNumber\": \"34572849\",\n    \"fullName\": \"Agustina Dolores Artista\",\n    \"birthDate\": \"25-05-2001\",\n    \"nib\": \"PT50002200003426584958670\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/tenant",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "createTenantGertrudes",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nif\": \"509.609.800\",\n    \"idCardNumber\": \"34833602\",\n    \"fullName\": \"Gertrudes Neves\",\n    \"birthDate\": \"13-08-1974\",\n    \"nib\": \"PT50002200003426584958672\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/tenant",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"tenant"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Aug 2023 14:16:02 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": {\n        \"nif\": \"509.609.800\",\n        \"idCardNumber\": \"34833602\",\n        \"fullName\": \"Gertrudes Neves\"\n    },\n    \"birthDate\": \"13-08-1974\",\n    \"originalAddress\": null,\n    \"nib\": \"PT50002200003426584958672\",\n    \"contacts\": null\n}"
+						},
+						{
+							"name": "createTenantAdernalino",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nif\": \"509.609.799\",\n    \"idCardNumber\": \"18038255\",\n    \"fullName\": \"Adernalino do Cabedal\",\n    \"birthDate\": \"03-11-1989\",\n    \"nib\": \"PT50002200003426584958671\",\n    \"originalAddress\": \"Rua do Homem Queimado nºx\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/tenant",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"tenant"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 21 Aug 2023 14:25:00 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": {\n        \"nif\": \"509.609.799\",\n        \"idCardNumber\": \"18038255\",\n        \"fullName\": \"Adernalino do Cabedal\"\n    },\n    \"birthDate\": \"03-11-1989\",\n    \"originalAddress\": \"Rua do Homem Queimado nºx\",\n    \"nib\": \"PT50002200003426584958671\",\n    \"contacts\": null\n}"
+						},
+						{
+							"name": "createTenantAgustina",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nif\": \"509.609.798\",\n    \"idCardNumber\": \"34572849\",\n    \"fullName\": \"Agustina Dolores Artista\",\n    \"birthDate\": \"25-05-2001\",\n    \"nib\": \"PT50002200003426584958670\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/tenant",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"tenant"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 17:38:02 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": {\n        \"nif\": \"509.609.798\",\n        \"idCardNumber\": \"34572849\",\n        \"fullName\": \"Agustina Dolores Artista\"\n    },\n    \"birthDate\": \"25-05-2001\",\n    \"originalAddress\": null,\n    \"nib\": \"PT50002200003426584958670\",\n    \"contacts\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "createTenantContact",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contactType\": \"PHONE\",\n    \"value\": \"935546827\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/tenant/contact?tenantNif=509.609.800",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant",
+								"contact"
+							],
+							"query": [
+								{
+									"key": "tenantNif",
+									"value": "509.609.800"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateTenant",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/tenant?tenantNif=509.609.800&tenantNib=PT50002200003426584958672",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant"
+							],
+							"query": [
+								{
+									"key": "tenantNif",
+									"value": "509.609.800"
+								},
+								{
+									"key": "tenantNib",
+									"value": "PT50002200003426584958672"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTenant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/tenant?tenantNif=509.609.799",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant"
+							],
+							"query": [
+								{
+									"key": "tenantNif",
+									"value": "509.609.799"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteTenantContact",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contactType\": \"PHONE\",\n    \"value\": \"snowWhite@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/tenant/contact?tenantNif=509.609.800",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"tenant",
+								"contact"
+							],
+							"query": [
+								{
+									"key": "tenantNif",
+									"value": "509.609.800"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "landlord",
+			"item": [
+				{
+					"name": "listLandlords",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/landlord/list",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLandlordById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/landlord?landlordNif=696.609.102&landlordIdCardNumber=39284756&landlordFullName=Adosindo Corta Mato",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "696.609.102"
+								},
+								{
+									"key": "landlordIdCardNumber",
+									"value": "39284756"
+								},
+								{
+									"key": "landlordFullName",
+									"value": "Adosindo Corta Mato"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getLandlordByNif",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/landlord/nif?landlordNif=696.609.102",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord",
+								"nif"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "696.609.102"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createLandlord",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nif\": \"696.609.103\",\n    \"idCardNumber\": \"29384750\",\n    \"fullName\": \"Cristela Esparrela\",\n    \"birthDate\": \"22-03-1968\",\n    \"nib\": \"PT50002200003426584958622\",\n    \"originalAddress\": \"Rua do Espinhal Velho nºy\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/landlord",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "createLandlordAdosindo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nif\": \"696.609.102\",\n    \"idCardNumber\": \"39284756\",\n    \"fullName\": \"Adosindo Corta Mato\",\n    \"birthDate\": \"16-10-1971\",\n    \"nib\": \"PT50002200003426584958600\",\n    \"originalAddress\": \"Rua das Torres de Marfim\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/landlord",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"landlord"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 14:14:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": {\n        \"nif\": \"696.609.102\",\n        \"idCardNumber\": \"39284756\",\n        \"fullName\": \"Adosindo Corta Mato\"\n    },\n    \"birthDate\": \"16-10-1971\",\n    \"originalAddress\": \"Rua das Torres de Marfim\",\n    \"nib\": \"PT50002200003426584958600\",\n    \"contacts\": null\n}"
+						},
+						{
+							"name": "createLandlordCristela",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nif\": \"696.609.103\",\n    \"idCardNumber\": \"29384750\",\n    \"fullName\": \"Cristela Esparrela\",\n    \"birthDate\": \"22-03-1968\",\n    \"nib\": \"PT50002200003426584958622\",\n    \"originalAddress\": \"Rua do Espinhal Velho nºy\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/landlord",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"landlord"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 22 Aug 2023 14:41:09 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": {\n        \"nif\": \"696.609.103\",\n        \"idCardNumber\": \"29384750\",\n        \"fullName\": \"Cristela Esparrela\"\n    },\n    \"birthDate\": \"22-03-1968\",\n    \"originalAddress\": \"Rua do Espinhal Velho nºy\",\n    \"nib\": \"PT50002200003426584958622\",\n    \"contacts\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "createLandlordContact",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contactType\": \"EMAIL\",\n    \"contact\": \"sapador123@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/landlord/contact?landlordNif=696.609.102",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord",
+								"contact"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "696.609.102"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateLandlord",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/landlord?landlordNif=696.609.102&landlordNib=PT50002200003426584958601",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "696.609.102"
+								},
+								{
+									"key": "landlordNib",
+									"value": "PT50002200003426584958601"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteLandlord",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/landlord?landlordNif=696.609.103",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "696.609.103"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteLandlordContact",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"contactType\": \"EMAIL\",\n    \"value\": \"sapador123@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/landlord/contact?landlordNif=696.609.102",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"landlord",
+								"contact"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "696.609.102"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Unit",
+			"item": [
+				{
+					"name": "ListUnits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/unit/list",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"unit",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUnit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/unit?unitId=leirinhas",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"unit"
+							],
+							"query": [
+								{
+									"key": "unitId",
+									"value": "leirinhas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUnitByLandlordNif",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/unit/landlord?landlordNif=leirinhas",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"unit",
+								"landlord"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "leirinhas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createUnit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"01\",\n    \"street\": \"Rua dos alperces\",\n    \"postalCode\": \"3800-123\",\n    \"article\": \"1234\",\n    \"registerNumber\": \"4444\",\n    \"town\": \"Aveiro\",\n    \"fraction\": \"1ºDTO\",\n    \"typology\": \"T3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/unit?landlordNif",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"unit"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "createUnit01",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"01\",\n    \"street\": \"Rua dos alperces\",\n    \"postalCode\": \"3800-123\",\n    \"article\": \"1234\",\n    \"registerNumber\": \"4444\",\n    \"town\": \"Aveiro\",\n    \"fraction\": \"1ºDTO\",\n    \"typology\": \"T3\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/unit",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"unit"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Jun 2023 19:18:45 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"01\",\n    \"street\": \"Rua dos alperces\",\n    \"postalCode\": \"3800-123\",\n    \"article\": \"1234\",\n    \"registerNumber\": \"4444\",\n    \"town\": \"Aveiro\",\n    \"fraction\": \"1ºDTO\",\n    \"typology\": \"T3\"\n}"
+						},
+						{
+							"name": "createUnitLeirinhas",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"leirinhas\",\n    \"street\": \"Travessa das Leirinhas\",\n    \"postalCode\": \"3810-001\",\n    \"article\": \"9999\",\n    \"registerNumber\": \"9999\",\n    \"town\": \"Aveiro\",\n    \"fraction\": \"\",\n    \"typology\": \"T2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local_url}}/unit?landlordNif=696.609.102",
+									"host": [
+										"{{local_url}}"
+									],
+									"path": [
+										"unit"
+									],
+									"query": [
+										{
+											"key": "landlordNif",
+											"value": "696.609.102"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 19 Jun 2023 12:45:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"leirinhas\",\n    \"street\": \"Travessa das Leirinhas\",\n    \"postalCode\": \"3810-001\",\n    \"article\": \"9999\",\n    \"registerNumber\": \"9999\",\n    \"town\": \"Aveiro\",\n    \"fraction\": \"\",\n    \"typology\": \"T3\"\n}"
+						}
+					]
+				},
+				{
+					"name": "updateUnit",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"street\": \"Travessa das Leirinhas\",\n    \"fraction\": \"B\",\n    \"typology\": \"T2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/unit?unitId=leirinhas",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"unit"
+							],
+							"query": [
+								{
+									"key": "unitId",
+									"value": "leirinhas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUnit",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/unit?id=leirinhas",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"unit"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "leirinhas"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "ListRooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/room/list",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"room",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRoom",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/room?id=1",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRoomByUnitId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/room/unit?unitId=leirinhas",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"room",
+								"unit"
+							],
+							"query": [
+								{
+									"key": "unitId",
+									"value": "leirinhas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createRoom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"unitId\": \"01\",\n  \"price\": 280,\n  \"capacity\": 1,\n  \"isSuite\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/room",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"room"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateRoom",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"unitId\": \"leirinhas\",\n  \"price\": 280\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/room?id=1",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRoom",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/room?id=1",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"room"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract",
+			"item": [
+				{
+					"name": "ListContracts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/contract/list",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContract",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/contract?id=2",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContractByTenant",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/contract/tenant?tenantNif=509.609.801",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract",
+								"tenant"
+							],
+							"query": [
+								{
+									"key": "tenantNif",
+									"value": "509.609.801"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContractByLandlord",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/contract/landlord?landlordNif=696.609.102",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract",
+								"landlord"
+							],
+							"query": [
+								{
+									"key": "landlordNif",
+									"value": "696.609.102"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContractByUnit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/contract/unit?unitId=01",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract",
+								"unit"
+							],
+							"query": [
+								{
+									"key": "unitId",
+									"value": "01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContractByRoom",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/contract/room?roomId=09",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract",
+								"room"
+							],
+							"query": [
+								{
+									"key": "roomId",
+									"value": "09"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createContract",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"startDate\": \"01-04-2023\",\n    \"endDate\": \"30-03-2024\",\n    \"tenantsNif\": [\"509.609.798\"],\n    \"landlordsNif\": [\"696.609.102\"],\n    \"unitId\": \"01\",\n    \"roomId\": 1,\n    \"type\": \"Fraction\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{local_url}}/contract",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteContract",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{local_url}}/contract?id=2",
+							"host": [
+								"{{local_url}}"
+							],
+							"path": [
+								"contract"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -91,7 +91,8 @@ public class RoomService {
         if (!roomEntity.get().getIsAvailable()) {
             throw new RoomIsOccupiedException(ROOM_NOT_AVAILABLE);
         }
-        roomEntity.get().setIsAvailable(!roomEntity.get().getIsAvailable());
+        roomEntity.get();
+        roomEntity.get().setIsAvailable(false);
         return roomEntity.get();
     }
 
