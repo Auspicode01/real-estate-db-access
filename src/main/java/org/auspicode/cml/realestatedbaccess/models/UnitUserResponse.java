@@ -24,6 +24,7 @@ import lombok.*;
         "contacts",
         "contracts"
 })
+@Generated
 public class UnitUserResponse {
 
     @NotNull

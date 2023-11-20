@@ -27,6 +27,7 @@ import java.util.Set;
         "nib",
         "contacts"
 })
+@Generated
 public class ContractUserResponse {
 
     @NotNull

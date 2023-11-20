@@ -19,6 +19,7 @@ import org.auspicode.cml.realestatedbaccess.entities.ContactType;
         "contactType",
         "contact"
 })
+@Generated
 public class Contact {
 
     @NotNull

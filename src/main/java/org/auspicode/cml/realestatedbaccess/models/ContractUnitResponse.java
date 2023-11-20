@@ -3,10 +3,7 @@ package org.auspicode.cml.realestatedbaccess.models;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -21,6 +18,7 @@ import lombok.Setter;
         "fraction",
         "typology",
 })
+@Generated
 public class ContractUnitResponse {
 
     @JsonProperty("id")

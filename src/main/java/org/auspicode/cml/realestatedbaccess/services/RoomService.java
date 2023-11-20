@@ -88,7 +88,7 @@ public class RoomService {
         if (roomEntity.isEmpty()) {
             throw new NoSuchRoomException(ROOM_DOES_NOT_MATCH_UNIT);
         }
-        if (roomRepository.findByIdAndIsAvailable(roomId).isEmpty()) {
+        if (!roomEntity.get().getIsAvailable()) {
             throw new RoomIsOccupiedException(ROOM_NOT_AVAILABLE);
         }
         roomEntity.get().setIsAvailable(!roomEntity.get().getIsAvailable());

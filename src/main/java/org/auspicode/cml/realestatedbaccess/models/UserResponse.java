@@ -30,6 +30,7 @@ import java.util.Set;
         "contacts",
         "contracts"
 })
+@Generated
 public class UserResponse {
 
     @NotNull

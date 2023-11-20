@@ -17,6 +17,7 @@ import lombok.*;
         "capacity",
         "isSuite"
 })
+@Generated
 public class UpdateRoomRequest {
 
     @JsonProperty("price")

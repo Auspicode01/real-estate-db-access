@@ -17,4 +17,6 @@ public class TestConstants {
     public static final String UNIT_ID = "01";
 
     public static final Long ROOM_ID = 1L;
+
+    public static final Long CONTRACT_ID = 1L;
 }

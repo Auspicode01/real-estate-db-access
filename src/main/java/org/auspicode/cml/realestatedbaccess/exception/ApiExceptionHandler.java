@@ -1,5 +1,6 @@
 package org.auspicode.cml.realestatedbaccess.exception;
 
+import lombok.Generated;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 @ControllerAdvice
+@Generated
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {EntryAlreadyInDbException.class})

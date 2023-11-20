@@ -17,6 +17,7 @@ import lombok.*;
         "fraction",
         "typology"
 })
+@Generated
 public class UpdateUnitRequest {
 
     @Size(max = 80)

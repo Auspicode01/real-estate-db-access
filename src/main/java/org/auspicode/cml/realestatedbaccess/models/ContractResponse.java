@@ -25,6 +25,7 @@ import java.util.Set;
         "room",
         "type"
 })
+@Generated
 public class ContractResponse {
 
     @NotNull
