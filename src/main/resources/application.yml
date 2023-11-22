@@ -5,6 +5,4 @@ spring:
   application:
     name: real-estate-db-access
   profiles:
-    active: dev
-  flyway:
-    enabled: false
+    active: docker

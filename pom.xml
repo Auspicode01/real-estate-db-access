@@ -57,8 +57,7 @@
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
-            <version>9.17.0</version>
+            <artifactId>flyway-sqlserver</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

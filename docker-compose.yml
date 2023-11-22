@@ -1,0 +1,28 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      sql:
+        condition: service_healthy
+    networks:
+      mynetwork:
+        ipv4_address: "10.56.1.21"
+  sql:
+    build: ./db/docker
+    ports:
+      - "1433:1433"
+    networks:
+      mynetwork:
+        ipv4_address: "10.56.1.20"
+    healthcheck:
+      test: bash -c "[ -f /var/opt/mssql/data/real_estate.mdf ]"
+      timeout: 1s
+      retries: 20
+networks:
+  mynetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.56.1.0/24"
