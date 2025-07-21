@@ -5,4 +5,4 @@ spring:
   application:
     name: real-estate-db-access
   profiles:
-    active: docker
+    active: dev

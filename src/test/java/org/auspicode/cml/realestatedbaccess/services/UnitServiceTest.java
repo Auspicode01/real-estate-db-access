@@ -4,7 +4,7 @@ import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import org.auspicode.cml.realestatedbaccess.entities.UnitEntity;
-import org.auspicode.cml.realestatedbaccess.exception.EntryAlreadyInDbException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.EntryAlreadyInDbException;
 import org.auspicode.cml.realestatedbaccess.models.CreateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateUnitRequest;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.UNIT_ALREADY_IN_DB;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.UNIT_NOT_IN_DB;
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.UNIT_ID;
@@ -40,7 +40,7 @@ class UnitServiceTest {
     void whenRetrieveUnits_ReturnUnitsInDB() {
         List<UnitResponse> unitResponseList = unitService.retrieveUnits();
 
-        assertThat(unitResponseList.size()).isEqualTo(2);
+        assertThat(unitResponseList).hasSize(2);
     }
 
     @Test
@@ -66,14 +66,14 @@ class UnitServiceTest {
         List<UnitResponse> unitResponseList = unitService.findByLandlordNif(USER_NIF);
 
         assertThat(unitResponseList.get(0).getLandlordEntity().getNif()).isEqualTo(USER_NIF);
-        assertThat(unitResponseList.size()).isEqualTo(1);
+        assertThat(unitResponseList).hasSize(1);
     }
 
     @Test
     void whenFindLandlordNifNotInDB_ReturnEmptyList() {
         List<UnitResponse> unitResponseList = unitService.findByLandlordNif(USER_NIF);
 
-        assertThat(unitResponseList.size()).isEqualTo(0);
+        assertThat(unitResponseList).isEmpty();
     }
 
     @Test
@@ -174,6 +174,6 @@ class UnitServiceTest {
 
         List<UnitResponse> result = unitService.retrieveUnits();
 
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).hasSize(1);
     }
 }

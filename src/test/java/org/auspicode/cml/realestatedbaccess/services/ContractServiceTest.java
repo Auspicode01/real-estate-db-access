@@ -4,8 +4,8 @@ import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import org.auspicode.cml.realestatedbaccess.entities.ContractEntity;
-import org.auspicode.cml.realestatedbaccess.exception.NoSuchRoomException;
-import org.auspicode.cml.realestatedbaccess.exception.RoomIsOccupiedException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.NoSuchRoomException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.RoomIsOccupiedException;
 import org.auspicode.cml.realestatedbaccess.models.ContractResponse;
 import org.auspicode.cml.realestatedbaccess.models.CreateContractRequest;
 import org.auspicode.cml.realestatedbaccess.repositories.ContractRepository;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.*;
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,7 +39,7 @@ class ContractServiceTest {
     void whenRetrieveContracts_ReturnContractsInDB() {
         List<ContractResponse> contractResponseList = contractService.retrieveContracts();
 
-        assertThat(contractResponseList.size()).isEqualTo(2);
+        assertThat(contractResponseList).hasSize(2);
     }
 
     @Test
@@ -64,7 +64,7 @@ class ContractServiceTest {
     void whenFindByUnitId_ReturnContract() {
         List<ContractResponse> contractResponseList = contractService.findByUnitId(UNIT_ID);
 
-        assertThat(contractResponseList.size()).isEqualTo(1);
+        assertThat(contractResponseList).hasSize(1);
         assertThat(contractResponseList.get(0).getUnit().getId()).isEqualTo(UNIT_ID);
     }
 
@@ -83,7 +83,7 @@ class ContractServiceTest {
     void whenFindByLandlordNif_ReturnContract() {
         List<ContractResponse> contractResponseList = contractService.findByLandlordNif(USER_NIF);
 
-        assertThat(contractResponseList.size()).isEqualTo(1);
+        assertThat(contractResponseList).hasSize(1);
     }
 
     @Test
@@ -101,7 +101,7 @@ class ContractServiceTest {
     void whenFindByTenantNif_ReturnContract() {
         List<ContractResponse> contractResponseList = contractService.findByTenantNif(USER_NIF);
 
-        assertThat(contractResponseList.size()).isEqualTo(1);
+        assertThat(contractResponseList).hasSize(1);
     }
 
     @Test
@@ -202,6 +202,6 @@ class ContractServiceTest {
 
         List<ContractResponse> result = contractService.retrieveContracts();
 
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).hasSize(1);
     }
 }

@@ -3,7 +3,7 @@ package org.auspicode.cml.realestatedbaccess.services;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.auspicode.cml.realestatedbaccess.entities.LandlordEntity;
-import org.auspicode.cml.realestatedbaccess.exception.EntryAlreadyInDbException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.EntryAlreadyInDbException;
 import org.auspicode.cml.realestatedbaccess.mappers.LandlordContactMapper;
 import org.auspicode.cml.realestatedbaccess.mappers.LandlordMapper;
 import org.auspicode.cml.realestatedbaccess.models.Contact;

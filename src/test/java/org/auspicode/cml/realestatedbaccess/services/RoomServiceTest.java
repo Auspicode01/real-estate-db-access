@@ -4,8 +4,8 @@ import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
 import org.auspicode.cml.realestatedbaccess.entities.RoomEntity;
-import org.auspicode.cml.realestatedbaccess.exception.AllRoomsCreatedForUnitException;
-import org.auspicode.cml.realestatedbaccess.exception.RoomIsOccupiedException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.AllRoomsCreatedForUnitException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.RoomIsOccupiedException;
 import org.auspicode.cml.realestatedbaccess.models.RoomRequest;
 import org.auspicode.cml.realestatedbaccess.models.RoomResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateRoomRequest;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.*;
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.ROOM_ID;
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.UNIT_ID;
@@ -40,7 +40,7 @@ class RoomServiceTest {
     void whenRetrieveRooms_ReturnRoomsInDB() {
         List<RoomResponse> roomResponseList = roomService.retrieveRooms();
 
-        assertThat(roomResponseList.size()).isEqualTo(3);
+        assertThat(roomResponseList).hasSize(3);
     }
 
     @Test
@@ -65,7 +65,7 @@ class RoomServiceTest {
     void whenFindByUnitId_ReturnRoom() {
         List<RoomResponse> roomResponseList = roomService.findByUnitId(UNIT_ID);
 
-        assertThat(roomResponseList.size()).isEqualTo(2);
+        assertThat(roomResponseList).hasSize(2);
         assertThat(roomResponseList.get(1).getUnitId()).isEqualTo(UNIT_ID);
     }
 
@@ -74,7 +74,7 @@ class RoomServiceTest {
     void whenFindByUnitIdNotInDB_ReturnEmptyList() {
         List<RoomResponse> roomResponseList = roomService.findByUnitId(UNIT_ID);
 
-        assertThat(roomResponseList.size()).isEqualTo(0);
+        assertThat(roomResponseList).isEmpty();
     }
 
     @Test
@@ -92,7 +92,7 @@ class RoomServiceTest {
         Optional<RoomEntity> result = roomRepository.findById(4L);
         List<RoomResponse> roomResponseList = roomService.retrieveRooms();
 
-        assertThat(roomResponseList.size()).isEqualTo(4);
+        assertThat(roomResponseList).hasSize(4);
         assertThat(savedRoom.getId()).isEqualTo(result.get().getId());
         assertThat(savedRoom.getUnitId()).isEqualTo(result.get().getUnitId().getId());
     }
@@ -106,7 +106,6 @@ class RoomServiceTest {
                 .capacity(1)
                 .isSuite(false)
                 .build();
-
 
         AllRoomsCreatedForUnitException allRoomsCreatedForUnitException = assertThrows(AllRoomsCreatedForUnitException.class, () -> {
             roomService.createRoom(roomToSave);
@@ -170,7 +169,7 @@ class RoomServiceTest {
 
         List<RoomResponse> result = roomService.retrieveRooms();
 
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result).hasSize(2);
     }
 
     @Test

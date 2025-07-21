@@ -6,7 +6,7 @@ import jakarta.transaction.Transactional;
 import org.auspicode.cml.realestatedbaccess.entities.ContactType;
 import org.auspicode.cml.realestatedbaccess.entities.TenantContactEntity;
 import org.auspicode.cml.realestatedbaccess.entities.TenantEntity;
-import org.auspicode.cml.realestatedbaccess.exception.EntryAlreadyInDbException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.EntryAlreadyInDbException;
 import org.auspicode.cml.realestatedbaccess.models.Contact;
 import org.auspicode.cml.realestatedbaccess.models.CreateUserRequest;
 import org.auspicode.cml.realestatedbaccess.models.UserResponse;
@@ -21,7 +21,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.TENANT_ALREADY_IN_DB;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.TENANT_NOT_IN_DB;
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.*;
@@ -42,7 +42,7 @@ class TenantServiceTest {
     void whenRetrieveTenants_ReturnTenantsInDB() {
         List<UserResponse> tenantsList = tenantService.retrieveTenants();
 
-        assertThat(tenantsList.size()).isEqualTo(2);
+        assertThat(tenantsList).hasSize(2);
     }
 
     @Test
@@ -150,7 +150,7 @@ class TenantServiceTest {
 
         List<UserResponse> result = tenantService.retrieveTenants();
 
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).hasSize(1);
     }
 
     @Test
@@ -163,6 +163,6 @@ class TenantServiceTest {
 
         Set<Contact> result = tenantService.findByNif(tenantNif).getContacts();
 
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isEmpty();
     }
 }
