@@ -1,6 +1,10 @@
 package org.auspicode.cml.realestatedbaccess.exception;
 
 import lombok.Generated;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.AllRoomsCreatedForUnitException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.EntryAlreadyInDbException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.NoSuchRoomException;
+import org.auspicode.cml.realestatedbaccess.exception.customExceptions.RoomIsOccupiedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

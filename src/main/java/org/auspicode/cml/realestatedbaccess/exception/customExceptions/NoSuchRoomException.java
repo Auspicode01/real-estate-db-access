@@ -1,4 +1,4 @@
-package org.auspicode.cml.realestatedbaccess.exception;
+package org.auspicode.cml.realestatedbaccess.exception.customExceptions;
 
 public class NoSuchRoomException extends RuntimeException {
 
