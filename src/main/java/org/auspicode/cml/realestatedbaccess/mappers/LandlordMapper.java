@@ -22,6 +22,9 @@ public interface LandlordMapper {
     @Mapping(target = "birthDate", source = "birthDate")
     @Mapping(target = "nib", source = "nib")
     @Mapping(target = "originalAddress", source = "originalAddress")
+    @Mapping(target = "contracts", ignore = true)
+    @Mapping(target = "contacts", ignore = true)
+    @Mapping(target = "units", ignore = true)
     LandlordEntity createLandlordRequestToEntity(CreateUserRequest createUserRequest);
 
     @Mapping(target = "nif", source = "id.nif")

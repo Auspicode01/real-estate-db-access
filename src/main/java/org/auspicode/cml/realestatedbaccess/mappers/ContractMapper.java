@@ -33,6 +33,7 @@ public interface ContractMapper {
     @Mapping(target = "startDate", source = "contractRequest.startDate")
     @Mapping(target = "endDate", source = "contractRequest.endDate")
     @Mapping(target = "tenants", ignore = true)
+    @Mapping(target = "landlords", ignore = true)
     @Mapping(target = "unitId", source = "unitEntity")
     @Mapping(target = "roomId", source = "roomEntity")
     @Mapping(target = "type", source = "contractRequest.type")

@@ -22,6 +22,8 @@ public interface TenantMapper {
     @Mapping(target = "birthDate", source = "birthDate")
     @Mapping(target = "nib", source = "nib")
     @Mapping(target = "originalAddress", source = "originalAddress")
+    @Mapping(target = "contracts", ignore = true)
+    @Mapping(target = "contacts", ignore = true)
     TenantEntity createTenantRequestToEntity(CreateUserRequest createUserRequest);
 
     @Mapping(target = "nif", source = "id.nif")
