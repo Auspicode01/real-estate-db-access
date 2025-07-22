@@ -51,10 +51,10 @@ public class ContractEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "TENANT_CONTRACT",
-            joinColumns = @JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID", nullable = false, updatable = false),
-            inverseJoinColumns = {@JoinColumn(name = "TENANT_NIF", referencedColumnName = "NIF", nullable = false, updatable = false),
-                    @JoinColumn(name = "TENANT_ID_CARD_NUMBER", referencedColumnName = "ID_CARD_NUMBER", nullable = false, updatable = false),
-                    @JoinColumn(name = "TENANT_FULL_NAME", referencedColumnName = "FULL_NAME", nullable = false, updatable = false)})
+            joinColumns = @JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID", nullable = false),
+            inverseJoinColumns = {@JoinColumn(name = "TENANT_NIF", referencedColumnName = "NIF", nullable = false),
+                    @JoinColumn(name = "TENANT_ID_CARD_NUMBER", referencedColumnName = "ID_CARD_NUMBER", nullable = false),
+                    @JoinColumn(name = "TENANT_FULL_NAME", referencedColumnName = "FULL_NAME", nullable = false)})
     @JsonIgnoreProperties("contracts")
     private Set<TenantEntity> tenants;
 
@@ -62,10 +62,10 @@ public class ContractEntity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "LANDLORD_CONTRACT",
-            joinColumns = @JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID", nullable = false, updatable = false),
-            inverseJoinColumns = {@JoinColumn(name = "LANDLORD_NIF", referencedColumnName = "NIF", nullable = false, updatable = false),
-                    @JoinColumn(name = "LANDLORD_ID_CARD_NUMBER", referencedColumnName = "ID_CARD_NUMBER", nullable = false, updatable = false),
-                    @JoinColumn(name = "LANDLORD_FULL_NAME", referencedColumnName = "FULL_NAME", nullable = false, updatable = false)})
+            joinColumns = @JoinColumn(name = "CONTRACT_ID", referencedColumnName = "ID", nullable = false),
+            inverseJoinColumns = {@JoinColumn(name = "LANDLORD_NIF", referencedColumnName = "NIF", nullable = false),
+                    @JoinColumn(name = "LANDLORD_ID_CARD_NUMBER", referencedColumnName = "ID_CARD_NUMBER", nullable = false),
+                    @JoinColumn(name = "LANDLORD_FULL_NAME", referencedColumnName = "FULL_NAME", nullable = false)})
     @JsonIgnoreProperties({"contracts", "units"})
     private Set<LandlordEntity> landlords;
 }
