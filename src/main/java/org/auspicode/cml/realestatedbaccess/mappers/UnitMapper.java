@@ -32,5 +32,12 @@ public interface UnitMapper {
 
     List<UnitResponse> toModel(List<UnitEntity> unitEntityList);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "postalCode", ignore = true)
+    @Mapping(target = "article", ignore = true)
+    @Mapping(target = "registerNumber", ignore = true)
+    @Mapping(target = "town", ignore = true)
+    @Mapping(target = "rooms", ignore = true)
+    @Mapping(target = "landlordEntity", ignore = true)
     void updateUnitToEntity(UpdateUnitRequest updateUnitRequest, @MappingTarget UnitEntity unitEntity);
 }
