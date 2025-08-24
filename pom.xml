@@ -6,15 +6,13 @@
     <groupId>org.auspicode.cml</groupId>
     <artifactId>cml-commons</artifactId>
     <version>1.0.0</version>
+    <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
   <artifactId>real-estate-db-access</artifactId>
   <version>1.0.0</version>
   <name>real-estate-db-access</name>
   <description>Renting Contracts Database API</description>
-  <properties>
-    <java.version>17</java.version>
-  </properties>
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
