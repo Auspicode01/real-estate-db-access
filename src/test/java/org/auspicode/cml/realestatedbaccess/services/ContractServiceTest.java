@@ -1,8 +1,5 @@
 package org.auspicode.cml.realestatedbaccess.services;
 
-import com.github.database.rider.core.api.configuration.DBUnit;
-import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.junit5.api.DBRider;
 import org.auspicode.cml.realestatedbaccess.entities.ContractEntity;
 import org.auspicode.cml.realestatedbaccess.exception.customExceptions.NoSuchRoomException;
 import org.auspicode.cml.realestatedbaccess.exception.customExceptions.RoomIsOccupiedException;
@@ -11,7 +8,9 @@ import org.auspicode.cml.realestatedbaccess.models.CreateContractRequest;
 import org.auspicode.cml.realestatedbaccess.repositories.ContractRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,10 +22,11 @@ import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.*;
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DBRider
-@DBUnit(allowEmptyFields = true)
 @SpringBootTest
-class ContractServiceTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = "/datasets/contracts/contracts.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/datasets/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+final class ContractServiceTest extends DbTestContainer {
 
     @Autowired
     ContractRepository contractRepository;
@@ -35,7 +35,6 @@ class ContractServiceTest {
     ContractService contractService;
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenRetrieveContracts_ReturnContractsInDB() {
         List<ContractResponse> contractResponseList = contractService.retrieveContracts();
 
@@ -43,7 +42,6 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenFindOneContract_ReturnContract() {
         ContractResponse contractResponse = contractService.findOne(CONTRACT_ID);
 
@@ -53,14 +51,13 @@ class ContractServiceTest {
     @Test
     void whenFindOneContractNotInDB_ReturnContractNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            contractService.findOne(CONTRACT_ID);
+            contractService.findOne(NON_EXISTENT_CONTRACT_ID);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(CONTRACT_NOT_IN_DB);
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenFindByUnitId_ReturnContract() {
         List<ContractResponse> contractResponseList = contractService.findByUnitId(UNIT_ID);
 
@@ -69,17 +66,15 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/units/units.yml", cleanAfter = true)
     void whenFindByUnitIdNotInDB_ReturnContractNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            contractService.findByUnitId(UNIT_ID);
+            contractService.findByUnitId(UNIT_ID_WITHOUT_CONTRACT);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(CONTRACT_NOT_IN_DB);
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenFindByLandlordNif_ReturnContract() {
         List<ContractResponse> contractResponseList = contractService.findByLandlordNif(USER_NIF);
 
@@ -87,17 +82,15 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/units/units.yml", cleanAfter = true)
     void whenFindByLandlordNifNotInDB_ReturnContractNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            contractService.findByLandlordNif(USER_NIF);
+            contractService.findByLandlordNif(USER_NIF_WITHOUT_CONTRACT);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(CONTRACT_NOT_IN_DB);
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenFindByTenantNif_ReturnContract() {
         List<ContractResponse> contractResponseList = contractService.findByTenantNif(USER_NIF);
 
@@ -105,18 +98,15 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/tenants/tenants.yml", cleanAfter = true)
     void whenFindByTenantNifNotInDB_ReturnContractNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            contractService.findByTenantNif(USER_NIF);
+            contractService.findByTenantNif(USER_NIF_WITHOUT_CONTRACT);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(CONTRACT_NOT_IN_DB);
     }
 
-
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenFindByRoomId_ReturnContract() {
         Long roomId = 2L;
         ContractResponse contractResponseList = contractService.findByRoomId(roomId);
@@ -125,7 +115,6 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenFindByRoomIdNotInDB_ReturnContractNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
             contractService.findByRoomId(ROOM_ID);
@@ -135,7 +124,6 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenCreateContract_SaveContractInDB() {
         CreateContractRequest contractToSave = CreateContractRequest.builder()
                 .startDate(LocalDate.of(2023, 6, 1))
@@ -156,7 +144,6 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenCreateContractToUnavailableRoom_ReturnRoomIsOccupiedException() {
         CreateContractRequest contractToSave = CreateContractRequest.builder()
                 .startDate(LocalDate.of(2023, 6, 1))
@@ -176,7 +163,6 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenCreateContractWithUnmatchedUnitAndRoom_ReturnNoSuchRoomException() {
         CreateContractRequest contractToSave = CreateContractRequest.builder()
                 .startDate(LocalDate.of(2023, 6, 1))
@@ -196,7 +182,6 @@ class ContractServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenDeleteContract_DeleteContractFromDB() {
         contractService.deleteContract(CONTRACT_ID);
 
