@@ -1,6 +1,3 @@
--- Disable constraints temporarily if cross-references mismatch on startup
-SET NOCOUNT ON;
-
 -- 1. Insert TENANTS
 INSERT INTO TENANTS (NIF, ID_CARD_NUMBER, FULL_NAME, BIRTH_DATE, ORIGINAL_ADDRESS, NIB)
 VALUES ('696.609.103', '29384750', 'Isabel Fonseca', '1968-03-22', NULL, 'PT50002200003426584958622');

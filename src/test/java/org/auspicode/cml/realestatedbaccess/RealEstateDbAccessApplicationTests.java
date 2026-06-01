@@ -1,17 +1,11 @@
 package org.auspicode.cml.realestatedbaccess;
 
+import org.auspicode.cml.realestatedbaccess.services.DbTestContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.mssqlserver.MSSQLServerContainer;
 
 @SpringBootTest
-class RealEstateDbAccessApplicationTests {
-
-    @ServiceConnection
-    static final MSSQLServerContainer mssql =
-            new MSSQLServerContainer("mcr.microsoft.com/mssql/server:2022-latest")
-                    .acceptLicense();
+class RealEstateDbAccessApplicationTests extends DbTestContainer {
 
     @Test
     void contextLoads() {

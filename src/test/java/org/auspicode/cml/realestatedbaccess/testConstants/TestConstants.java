@@ -10,6 +10,8 @@ public class TestConstants {
 
     public static final String USER_NIF = "696.609.103";
 
+    public static final String NON_EXISTENT_USER_NIF = "999.999.999";
+
     public static final String USER_NIF_WITHOUT_CONTRACT = "123.445.999";
 
     public static final String USER_ID_CARD_NUMBER = "29384750";

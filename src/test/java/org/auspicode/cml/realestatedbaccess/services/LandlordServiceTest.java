@@ -9,10 +9,11 @@ import org.auspicode.cml.realestatedbaccess.models.Contact;
 import org.auspicode.cml.realestatedbaccess.models.CreateUserRequest;
 import org.auspicode.cml.realestatedbaccess.models.UserResponse;
 import org.auspicode.cml.realestatedbaccess.repositories.LandlordRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,9 +27,11 @@ import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.LANDL
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Disabled
 @SpringBootTest
-class LandlordServiceTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = "/datasets/landlords/landlords.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/datasets/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+class LandlordServiceTest extends DbTestContainer {
 
     @Autowired
     LandlordRepository landlordRepository;
@@ -53,7 +56,7 @@ class LandlordServiceTest {
     @Test
     void whenFindOneLandlordNotInDB_ReturnLandlordNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            landlordService.findOne(USER_NIF, USER_ID_CARD_NUMBER, USER_FULL_NAME);
+            landlordService.findOne(NON_EXISTENT_USER_NIF, USER_ID_CARD_NUMBER, USER_FULL_NAME);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(LANDLORD_NOT_IN_DB);
@@ -69,7 +72,7 @@ class LandlordServiceTest {
     @Test
     void whenFindByNifNotInDB_ReturnLandlordNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            landlordService.findByNif(USER_NIF);
+            landlordService.findByNif(NON_EXISTENT_USER_NIF);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(LANDLORD_NOT_IN_DB);
@@ -81,7 +84,7 @@ class LandlordServiceTest {
                 .nif("123.123.123")
                 .idCardNumber("29904882")
                 .fullName("Idalinda Gama")
-                .nib("PT50002200003426584958622")
+                .nib("PT50002200003426584958699")
                 .birthDate(LocalDate.of(1999, 7, 01))
                 .build();
 
