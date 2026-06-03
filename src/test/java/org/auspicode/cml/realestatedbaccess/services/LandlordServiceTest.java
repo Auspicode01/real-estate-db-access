@@ -1,7 +1,5 @@
 package org.auspicode.cml.realestatedbaccess.services;
 
-import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.junit5.api.DBRider;
 import jakarta.transaction.Transactional;
 import org.auspicode.cml.realestatedbaccess.entities.ContactType;
 import org.auspicode.cml.realestatedbaccess.entities.LandlordContactEntity;
@@ -13,7 +11,9 @@ import org.auspicode.cml.realestatedbaccess.models.UserResponse;
 import org.auspicode.cml.realestatedbaccess.repositories.LandlordRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,9 +27,11 @@ import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.LANDL
 import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DBRider
 @SpringBootTest
-class LandlordServiceTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = "/datasets/landlords/landlords.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/datasets/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+class LandlordServiceTest extends DbTestContainer {
 
     @Autowired
     LandlordRepository landlordRepository;
@@ -38,7 +40,6 @@ class LandlordServiceTest {
     LandlordService landlordService;
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
     void whenRetrieveLandlords_ReturnLandlordsInDB() {
         List<UserResponse> landlordsList = landlordService.retrieveLandlords();
 
@@ -46,7 +47,6 @@ class LandlordServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
     void whenFindOneLandlord_ReturnLandlord() {
         UserResponse result = landlordService.findOne(USER_NIF, USER_ID_CARD_NUMBER, USER_FULL_NAME);
 
@@ -56,14 +56,13 @@ class LandlordServiceTest {
     @Test
     void whenFindOneLandlordNotInDB_ReturnLandlordNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            landlordService.findOne(USER_NIF, USER_ID_CARD_NUMBER, USER_FULL_NAME);
+            landlordService.findOne(NON_EXISTENT_USER_NIF, USER_ID_CARD_NUMBER, USER_FULL_NAME);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(LANDLORD_NOT_IN_DB);
     }
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
     void whenFindByNif_ReturnLandlord() {
         UserResponse result = landlordService.findByNif(USER_NIF);
 
@@ -73,7 +72,7 @@ class LandlordServiceTest {
     @Test
     void whenFindByNifNotInDB_ReturnLandlordNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            landlordService.findByNif(USER_NIF);
+            landlordService.findByNif(NON_EXISTENT_USER_NIF);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(LANDLORD_NOT_IN_DB);
@@ -85,7 +84,7 @@ class LandlordServiceTest {
                 .nif("123.123.123")
                 .idCardNumber("29904882")
                 .fullName("Idalinda Gama")
-                .nib("PT50002200003426584958622")
+                .nib("PT50002200003426584958699")
                 .birthDate(LocalDate.of(1999, 7, 01))
                 .build();
 
@@ -98,7 +97,6 @@ class LandlordServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
     void whenCreateLandlordThatAlreadyExists_ReturnEntryAlreadyInDBException() {
         CreateUserRequest landlordToSave = CreateUserRequest.builder()
                 .nif(USER_NIF)
@@ -115,7 +113,6 @@ class LandlordServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
     @Transactional
     void whenCreateLandlordContact_SaveLandlordContactInDB() {
         Contact contact = Contact.builder()
@@ -132,7 +129,6 @@ class LandlordServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
     void whenUpdateLandlordNib_SaveNewLandlordNib() {
         String newNib = "PT50002200003426584958633";
 
@@ -144,7 +140,6 @@ class LandlordServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords.yml", cleanAfter = true)
     void whenDeleteLandlord_DeleteLandlordFromDB() {
         landlordService.deleteLandlord(USER_NIF);
 
@@ -154,7 +149,6 @@ class LandlordServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/landlords/landlords_with_contacts.yml", cleanAfter = true)
     void whenDeleteLandlordContact_DeleteLandlordContactFromDB() {
         String landlordNif = "123.445.249";
         Contact contactToDelete = landlordService.findByNif(landlordNif).getContacts().iterator().next();

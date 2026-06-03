@@ -1,8 +1,5 @@
 package org.auspicode.cml.realestatedbaccess.services;
 
-import com.github.database.rider.core.api.configuration.DBUnit;
-import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.junit5.api.DBRider;
 import org.auspicode.cml.realestatedbaccess.entities.RoomEntity;
 import org.auspicode.cml.realestatedbaccess.exception.customExceptions.AllRoomsCreatedForUnitException;
 import org.auspicode.cml.realestatedbaccess.exception.customExceptions.RoomIsOccupiedException;
@@ -12,7 +9,9 @@ import org.auspicode.cml.realestatedbaccess.models.UpdateRoomRequest;
 import org.auspicode.cml.realestatedbaccess.repositories.RoomRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,14 +19,14 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.*;
-import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.ROOM_ID;
-import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.UNIT_ID;
+import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DBRider
-@DBUnit(allowEmptyFields = true)
 @SpringBootTest
-class RoomServiceTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = "/datasets/rooms/rooms.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/datasets/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+class RoomServiceTest extends DbTestContainer {
 
     @Autowired
     RoomRepository roomRepository;
@@ -36,7 +35,6 @@ class RoomServiceTest {
     RoomService roomService;
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenRetrieveRooms_ReturnRoomsInDB() {
         List<RoomResponse> roomResponseList = roomService.retrieveRooms();
 
@@ -44,7 +42,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenFindOneRoom_ReturnRoom() {
         RoomResponse roomResponse = roomService.findOne(ROOM_ID);
 
@@ -54,14 +51,13 @@ class RoomServiceTest {
     @Test
     void whenFindOneRoomNotInDB_ReturnRoomNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            roomService.findOne(ROOM_ID);
+            roomService.findOne(NON_EXISTENT_ROOM_ID);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(ROOM_NOT_IN_DB);
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenFindByUnitId_ReturnRoom() {
         List<RoomResponse> roomResponseList = roomService.findByUnitId(UNIT_ID);
 
@@ -70,15 +66,13 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/units/units.yml", cleanAfter = true)
     void whenFindByUnitIdNotInDB_ReturnEmptyList() {
-        List<RoomResponse> roomResponseList = roomService.findByUnitId(UNIT_ID);
+        List<RoomResponse> roomResponseList = roomService.findByUnitId(UNIT_ID_WITHOUT_ROOMS);
 
         assertThat(roomResponseList).isEmpty();
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenCreateRoom_SaveRoomInDB() {
         RoomRequest roomToSave = RoomRequest.builder()
                 .unitId("leirinhas")
@@ -98,7 +92,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenCreateRoomToFullUnit_ReturnAllRoomsCreatedForUnitException() {
         RoomRequest roomToSave = RoomRequest.builder()
                 .unitId(UNIT_ID)
@@ -115,7 +108,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenUpdateRoom_changeAllUpdatableValues() {
         UpdateRoomRequest updateRoomRequest = UpdateRoomRequest.builder()
                 .price(290)
@@ -130,7 +122,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenUpdateRoom_changePriceValue() {
         UpdateRoomRequest updateRoomRequest = UpdateRoomRequest.builder()
                 .price(290)
@@ -141,7 +132,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenUpdateRoom_changeCapacityValue() {
         UpdateRoomRequest updateRoomRequest = UpdateRoomRequest.builder()
                 .capacity(2)
@@ -152,7 +142,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenUpdateRoom_changeIsSuiteValue() {
         UpdateRoomRequest updateRoomRequest = UpdateRoomRequest.builder()
                 .isSuite(true)
@@ -163,7 +152,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/rooms/rooms.yml", cleanAfter = true)
     void whenDeleteRoom_DeleteRoomFromDB() {
         roomService.deleteRoom(ROOM_ID);
 
@@ -173,7 +161,6 @@ class RoomServiceTest {
     }
 
     @Test
-    @DataSet(value = "datasets/contracts/contracts.yml", cleanAfter = true)
     void whenDeleteRoomInUse_ReturnRoomIsOccupiedExceptionException() {
         RoomIsOccupiedException roomIsOccupiedException = assertThrows(RoomIsOccupiedException.class, () -> {
             roomService.deleteRoom(2L);
