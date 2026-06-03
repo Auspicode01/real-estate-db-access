@@ -4,7 +4,7 @@ spring:
   sql:
     init:
       mode: always
-      schema-locations: "classpath:test/db/migration/V1_1__test_db_init.sql"
+      schema-locations: "classpath:test/db/script/V1_1__test_db_init.sql"
   jpa:
     show-sql: true
     database-platform: org.hibernate.dialect.SQLServerDialect

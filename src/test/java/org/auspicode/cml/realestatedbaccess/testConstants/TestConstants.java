@@ -20,9 +20,15 @@ public class TestConstants {
 
     public static final String UNIT_ID = "01";
 
+    public static final String NON_EXISTENT_UNIT_ID = "00";
+
     public static final String UNIT_ID_WITHOUT_CONTRACT = "99";
 
+    public static final String UNIT_ID_WITHOUT_ROOMS = "99";
+
     public static final Long ROOM_ID = 1L;
+
+    public static final Long NON_EXISTENT_ROOM_ID = 9L;
 
     public static final Long CONTRACT_ID = 1L;
 

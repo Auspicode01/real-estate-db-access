@@ -6,10 +6,11 @@ import org.auspicode.cml.realestatedbaccess.models.CreateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.models.UnitResponse;
 import org.auspicode.cml.realestatedbaccess.models.UpdateUnitRequest;
 import org.auspicode.cml.realestatedbaccess.repositories.UnitRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,13 +19,14 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.UNIT_ALREADY_IN_DB;
 import static org.auspicode.cml.realestatedbaccess.exception.ErrorMessages.UNIT_NOT_IN_DB;
-import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.UNIT_ID;
-import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.USER_NIF;
+import static org.auspicode.cml.realestatedbaccess.testConstants.TestConstants.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Disabled
 @SpringBootTest
-class UnitServiceTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql(scripts = "/datasets/units/units.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/datasets/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+class UnitServiceTest extends DbTestContainer {
 
     @Autowired
     UnitRepository unitRepository;
@@ -49,7 +51,7 @@ class UnitServiceTest {
     @Test
     void whenFindOneUnitNotInDB_ReturnUnitNotInDBException() {
         NoSuchElementException noSuchElementException = assertThrows(NoSuchElementException.class, () -> {
-            unitService.findOne(UNIT_ID);
+            unitService.findOne(NON_EXISTENT_UNIT_ID);
         });
 
         assertThat(noSuchElementException.getMessage()).isEqualTo(UNIT_NOT_IN_DB);
@@ -65,7 +67,7 @@ class UnitServiceTest {
 
     @Test
     void whenFindLandlordNifNotInDB_ReturnEmptyList() {
-        List<UnitResponse> unitResponseList = unitService.findByLandlordNif(USER_NIF);
+        List<UnitResponse> unitResponseList = unitService.findByLandlordNif(NON_EXISTENT_USER_NIF);
 
         assertThat(unitResponseList).isEmpty();
     }
@@ -73,11 +75,11 @@ class UnitServiceTest {
     @Test
     void whenCreateUnit_SaveUnitInDB() {
         CreateUnitRequest unitToSave = CreateUnitRequest.builder()
-                .id(UNIT_ID)
+                .id(NON_EXISTENT_UNIT_ID)
                 .street("Travessa das Leirinhas")
-                .postalCode("3810-001")
-                .article("9999")
-                .registerNumber("9999")
+                .postalCode("3810-009")
+                .article("9900")
+                .registerNumber("9900")
                 .town("Aveiro")
                 .fraction("")
                 .typology("T2")
@@ -85,7 +87,7 @@ class UnitServiceTest {
 
         UnitResponse savedUnit = unitService.createUnit(USER_NIF, unitToSave);
 
-        Optional<UnitEntity> result = unitRepository.findById(UNIT_ID);
+        Optional<UnitEntity> result = unitRepository.findById(NON_EXISTENT_UNIT_ID);
 
         assertThat(savedUnit.getId()).isEqualTo(result.get().getId());
         assertThat(savedUnit.getStreet()).isEqualTo(result.get().getStreet());
